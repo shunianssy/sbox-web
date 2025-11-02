@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏介绍-{{ Title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: 30px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .author-container {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+        .author-link {
+            font-size: 18px;
+            color: #1e90ff;
+            text-decoration: none;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+        .author-link:hover {
+            text-decoration: underline;
+        }
+        .download-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #1e90ff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .download-link:hover {
+            background-color: #007acc;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h3>{{ Title }}</h3>
+
+        <!-- Bilibili iframe -->
+        <iframe src="{{ bilibili }}" scrolling="no" allowfullscreen="true"></iframe><br>
+        
+        <!-- Author link in the same line -->
+        <div class="author-container">
+            <p>作者：</p>
+            <a href="{{ author_Link }}" class="author-link">{{ author }}</a>
+        </div>
+
+        <!-- Introduction -->
+        <p>简介</p>
+        <p>{{ Introduction }}</p>
+
+        <!-- Download link -->
+        <a href="{{ Download_link }}" class="download-link">下载链接</a>
+        <a href="{{ website_link }}" class="download-link">网页版链接</a>
+        <a href="{{ android_download_link }}" class="download-link">安卓下载链接</a>
+        <a href="{{ mac_download_link }}" class="download-link">Mac下载链接</a>
+        <a href="{{ linux_download_link }}" class="download-link">linux下载链接</a>
+
+        <p>点击后无反应为该版本没有适配或无连接记录</p>
+    </div>
+
+
+</body>
+</html>

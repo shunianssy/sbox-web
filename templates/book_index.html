@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- 在 head 中提前运行脚本，防止 FOUC -->
+    <script>
+        // 立即读取主题，避免闪烁
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark'; // 默认 dark
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+
+    <style>
+        /* 悬浮展示框通用样式 */
+        :root {
+            --bg-color: #fff;
+            --text-color: #333;
+            --border-color: #ddd;
+            --link-color: #4a90e2;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #fff;
+            --text-color: #333;
+            --border-color: #ddd;
+            --link-color: #4a90e2;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #2d2d2d;
+            --text-color: #e0e0e0;
+            --border-color: #555;
+            --link-color: #6cbaff;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-family: Arial, sans-serif;
+            transition: background 0.3s ease; /* 平滑背景过渡 */
+        }
+
+        /* 悬浮框样式 */
+        .floating-box {
+            position: fixed;
+            width: 280px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 16px;
+            font-family: Arial, sans-serif;
+            color: var(--text-color);
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.3s ease;
+            z-index: 1000;
+            cursor: default;
+            user-select: none;
+            box-sizing: border-box;
+            opacity: 1;
+            overflow: hidden;
+        }
+
+        .floating-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .floating-box h3 {
+            margin: 0 0 10px;
+            font-size: 1.1em;
+            color: var(--link-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+            position: relative;
+        }
+
+        .floating-box p {
+            margin: 8px 0;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .floating-box a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        .floating-box a:hover {
+            text-decoration: underline;
+        }
+
+        /* 位置布局 */
+        .floating-box-1 {
+            bottom: 30px;
+            right: 30px;
+        }
+
+        .floating-box-2 {
+            bottom: 100px;
+            right: 50px;
+        }
+
+        .floating-box-3 {
+            bottom: 170px;
+            right: 70px;
+        }
+
+        /* 关闭按钮 */
+        .close-btn {
+            position: absolute;
+            top: 6px;
+            right: 8px;
+            background: none;
+            border: none;
+            font-size: 1.2em;
+            color: #999;
+            cursor: pointer;
+            opacity: 0.7;
+            line-height: 1;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .close-btn:hover {
+            color: #ff4d4f;
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+            opacity: 1;
+        }
+
+        [data-theme="dark"] .close-btn {
+            color: #aaa;
+        }
+
+        [data-theme="dark"] .close-btn:hover {
+            color: #ff6b6b;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        /* 推荐板块 */
+        .recommend-sections {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 0 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .recommend-card {
+            flex: 1;
+            min-width: 280px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .recommend-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .recommend-card h3 {
+            margin: 0 0 12px;
+            font-size: 1.1em;
+            color: var(--link-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .recommend-card ul {
+            margin: 8px 0;
+            padding-left: 18px;
+        }
+
+        .recommend-card li {
+            margin: 6px 0;
+            font-size: 0.95em;
+            line-height: 1.5;
+            color: var(--text-color);
+        }
+
+        .recommend-card a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        .recommend-card a:hover {
+            text-decoration: underline;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.2em;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            background: var(--bg-color);
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9em;
+            color: var(--text-color);
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="menu-icon2"><a href="/" style="color: black;">书阁</a></div>
+        <div class="toolbox">
+            {{ nav|safe }}
+        </div>
+    </nav>
+    </section>
+
+    <h2 style="text-align: center; margin-top: 30px;">优秀作品喵~</h2>
+
+    <!-- 推荐作品板块 -->
+    <div class="recommend-sections">
+        <div class="recommend-card">
+            <h3>📚 随机推荐</h3>
+            <ul>
+                <li><a href="/book/{{ bookid }}">{{ book }}</a></li>
+                <li><a href="/book/{{ bookid2 }}">{{ book2 }}</a></li>
+                <li><a href="/book/{{ bookid3 }}">{{ book3 }}</a></li>
+                <li><a href="/book/{{ bookid4 }}">{{ book4 }}</a></li>
+                <li><a href="/book/{{ bookid5 }}">{{ book5 }}</a></li>
+                <li><a href="/book/{{ bookid6 }}">{{ book6 }}</a></li>
+                <li><a href="/book/{{ bookid7 }}">{{ book7 }}</a></li>
+                <li><a href="/book/{{ bookid8 }}">{{ book8 }}</a></li>
+                <li><a href="/book/{{ bookid9 }}">{{ book9 }}</a></li>
+                <li><a href="/book/{{ bookid10 }}">{{ book10 }}</a></li>
+            </ul>
+        </div>
+
+        <div class="recommend-card">
+            <h3>📖 小说推荐</h3>
+            <ul>
+                <li><a href="/Novel/{{ Novelid }}">{{ Novel }}</a></li>
+                <li><a href="/Novel/{{ Novelid2 }}">{{ Novel2 }}</a></li>
+                <li><a href="/Novel/{{ Novelid3 }}">{{ Novel3 }}</a></li>
+                <li><a href="/Novel/{{ Novelid8 }}">{{ Novel8 }}</a></li>
+                <li><a href="/Novel/{{ Novelid4 }}">{{ Novel4 }}</a></li>
+                <li><a href="/Novel/{{ Novelid5 }}">{{ Novel5 }}</a></li>
+                <li><a href="/Novel/{{ Novelid6 }}">{{ Novel6 }}</a></li>
+                <li><a href="/Novel/{{ Novelid7 }}">{{ Novel7 }}</a></li>
+                <li><a href="/Novel/{{ Novelid9 }}">{{ Novel9 }}</a></li>
+                <li><a href="/Novel/{{ Novelid10 }}">{{ Novel10 }}</a></li>
+            </ul>
+        </div>
+
+        <div class="recommend-card">
+            <h3>🔍 悬疑烧脑</h3>
+            <ul>
+                <li><a href="/book/105">《密室无解》</a></li>
+                <li><a href="/book/109">《记忆残片》</a></li>
+                <li><a href="/book/115">《倒带七十二小时》</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <footer>
+        {{ footer|safe }}
+    </footer>
+
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.querySelector('.dropdown');
+            dropdown.classList.toggle('open');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // 关闭悬浮框（带淡出动画）
+        function closeBox(boxId) {
+            const box = document.getElementById(boxId);
+            if (box) {
+                box.style.opacity = '0';
+                box.style.pointerEvents = 'none';
+                setTimeout(() => {
+                    box.style.display = 'none';
+                    localStorage.setItem(`floatingBox_${boxId}`, 'hidden');
+                }, 300);
+            }
+        }
+
+        // 页面加载时恢复悬浮框状态
+        document.addEventListener('DOMContentLoaded', () => {
+            ['box1'].forEach(id => {  // 可扩展 box2, box3
+                const box = document.getElementById(id);
+                if (box) {
+                    const isHidden = localStorage.getItem(`floatingBox_${id}`);
+                    if (isHidden === 'hidden') {
+                        box.style.display = 'none';
+                    }
+                }
+            });
+        });
+
+        // 点击外部关闭下拉菜单
+        document.addEventListener('click', function (event) {
+            const dropdown = document.querySelector('.dropdown');
+            if (!dropdown.contains(event.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        console.info('加载成功，小盒子版本号：1.7.6');
+        console.info('前端已更新：防止闪烁 + 平滑主题切换');
+    </script>
+</body>
+</html>

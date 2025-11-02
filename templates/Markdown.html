@@ -1,0 +1,70 @@
+﻿<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown 编辑与展示</title>
+    <!-- 引入 marked.js -->
+    <script src="https://shunian.scerpark.cn/markdown/markdown.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+        #preview {
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Markdown 编辑器</h1>
+    <textarea id="editor" placeholder="请输入Markdown内容"></textarea>
+
+    <button id="loadPreviewBtn">加载预览</button>
+
+    <h2>预览</h2>
+    <div id="preview"></div>
+
+    <script>
+        // 获取编辑器、预览框和按钮
+        var editor = document.getElementById('editor');
+        var preview = document.getElementById('preview');
+        var loadPreviewBtn = document.getElementById('loadPreviewBtn');
+
+        // 监听按钮点击，手动加载预览
+        loadPreviewBtn.addEventListener('click', function() {
+            var markdownContent = editor.value.trim();  // 获取编辑框的内容
+            if (markdownContent === "") {
+                preview.innerHTML = "<p class='error'>请输入内容进行预览。</p>";
+            } else {
+                try {
+                    // 使用 marked.parse() 代替 marked()
+                    var htmlContent = marked.parse(markdownContent);  // 使用 marked.parse() 将 Markdown 转换为 HTML
+                    preview.innerHTML = htmlContent;  // 更新预览框的内容
+                } catch (error) {
+                    preview.innerHTML = "<p class='error'>加载预览时出错：" + error.message + "</p>";
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
+

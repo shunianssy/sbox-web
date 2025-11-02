@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="Zn-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小盒子-下载站</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- 在 head 中提前运行脚本，防止 FOUC -->
+    <script>
+        // 立即读取主题，避免闪烁
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark'; // 默认 dark
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+</head>
+<body>
+    <nav>
+        <div class="menu-icon2">小盒子社区</div>
+        {{ nav|safe }}
+    </nav>
+
+    <div class="form-card">
+        <p>本下载站仅仅提供学习，任何安装包为快速安装而搬运，内容与小盒子社区无关，如有侵权，联系sbox520@163.com下架</p>
+        <h3>小盒子社区手机版</h3>
+        <a href="https://shunianssy.lanzouu.com/i5ZdU32p0aef">小盒子社区手机版</a>
+        <h3>python</h3>
+        <a href="https://shunianssy.lanzouu.com/ic3KQ32lk4md">python2.2 (不推荐，老项目使用)</a><br>
+        <a href="https://shunianssy.lanzouu.com/iMG8O32lps6b">python2.7.18 (不推荐，老项目使用推荐)</a><br>
+        <a href="https://shunianssy.lanzouu.com/iR8Ld30e1uji">python3.6.5 (不推荐)</a><br>
+        <a href="https://shunianssy.lanzouu.com/ilXQ830e1wfg">python3.8.0-64x (支持win7)</a><br>
+        <a href="https://shunianssy.lanzouu.com/iC2ir32lk46h">python3.8.10-64x (支持win7最高版本，win7推荐)</a><br>
+        <a href="https://shunianssy.lanzouu.com/i4pwR30gu5mh">python-3.9.0-amd64(win7以上)</a><br>
+        <a href="https://shunianssy.lanzouu.com/iCyMS30e1wne">python3.13.9-54x (win7以上)</a><br>
+        <h3>go</h3>
+        <a href="https://url12.ctfile.com/f/65362512-8409908085-a819f5?p=6406">支持win7最高版本go1.20.14.windows-amd64.msi</a><br>
+        <a href="https://url12.ctfile.com/f/65362512-8409728139-a07922?p=6406)">支持win7最高版本go1.20.14.windows-amd64.zip</a><br>
+        <a href="https://url12.ctfile.com/f/65362512-8409928485-516aa8?p=6406">go1.24.5.windows-amd64</a><br>
+        <h3>alpha math</h3>
+        <a href="https://shunianssy.lanzouu.com/i5ZdU32p0aef">alpha math安卓版</a>
+        <h3>vscode</h3>
+        <a href="https://shunianssy.lanzouu.com/iQWXR30e1x4b">vscode-ia32-1.32.3 (支持win7)</a><br>
+        <a href="https://www.123912.com/s/x9Q4vd-uf2mH">VSCodeUserSetup-x64-1.96.4.exe</a><br>
+        <h3>linux</h3>
+        <a href="https://www.123912.com/s/x9Q4vd-Uf2mH">kali-linux-2016.2-i386.iso</a><br>
+    </div>
+
+    <footer>
+            {{ footer|safe }}
+    </footer>
+
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.querySelector('.dropdown');
+            dropdown.classList.toggle('open');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.getAttribute('data-theme') === 'light') {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        document.addEventListener('click', function (event) {
+            const dropdown = document.querySelector('.dropdown');
+            if (!dropdown.contains(event.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        // 页面加载时根据本地存储设置主题
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+        }
+
+        // 跳转到搜索页面
+        function navigateToSearch() {
+            window.location.href = "search";
+        }
+
+        // 文件选择交互
+        document.querySelector('.file-input').addEventListener('click', () => {
+            document.getElementById('file').click();
+        });
+    </script>
+</body>
+</html>

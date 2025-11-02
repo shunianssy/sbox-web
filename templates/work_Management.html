@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ filename }} - 小盒子</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/work_style.css') }}">
+</head>
+<body>
+    <!-- 全局顶部导航（类似 GitHub 顶部） -->
+    <header class="global-nav">
+        <h2><a href="/">Sbox</a> / <a href="/user/{{ username }}">{{ username }}</a> / {{ filename }}</h2>
+        <!-- 可在此添加搜索或用户菜单 -->
+    </header>
+
+    <!-- 项目导航 Tabs -->
+    <ul class="repo-tabs">
+        <li><a href="/scratch/{{ id }}" class="{{ 'active' if not request.args.get('page') else '' }}">Code</a></li>
+        <li><a href="/scratch/{{ id }}?page=Issues" class="{{ 'active' if request.args.get('page') == 'Issues' else '' }}">Issues</a></li>
+        <li><a href="/scratch/{{ id }}?page=wikis" class="{{ 'active' if request.args.get('page') == 'wikis' else '' }}">Wiki</a></li>
+        <li><a href="/scratch/{{ id }}?page=master" class="{{ 'active' if request.args.get('page') == 'master' else '' }}">Insights</a></li>
+        <!-- 动态插入的额外链接 -->
+        {% if a %}
+            <!-- 注意：a 是 HTML 字符串，需确保它输出的是 <li><a>...</a></li> 格式 -->
+            {{ a|safe }}
+        {% endif %}
+        <li><a href="/scratch/{{ id }}?page=Download">Clone</a></li>
+        <li><a href="/scratch/{{ id }}?page=license">License: {{ license }}</a></li>
+    </ul>
+
+    <div class="main-content">
+        <h1>编辑项目：{{ filename }}</h1>
+        <p class="author-info">
+            所属用户：<a href="/user/{{ username }}">{{ username }}</a>
+        </p>
+
+        <!-- 编辑表单 -->
+        <form method="POST" enctype="multipart/form-data">
+            <!-- 作品名 -->
+            <div class="form-group">
+                <label for="geixing">作品名：</label>
+                <input
+                    type="text"
+                    id="geixing"
+                    name="geixing"
+                    value="{{ gexing1 }}"
+                    class="form-control"
+                    placeholder="请输入项目名称"
+                    maxlength="100"
+                />
+            </div>
+
+            <!-- 简介 -->
+            <div class="form-group">
+                <label for="jianjie">简介：</label>
+                
+                <textarea
+                    id="jianjie"
+                    name="jianjie"
+                    class="jianjie form-control"
+                    placeholder="请描述项目功能、玩法或创作灵感..."
+                    rows="6"
+                    style="width: 958px; height: 232px;"
+                >{{ jianjie1 }}</textarea>
+
+                <!-- AI 生成按钮 -->
+                <button
+                    type="button"
+                    id="ai-btn"
+                    class="ai-btn"
+                    onclick="generateAIDescription()"
+                >
+                    用AI生成简介 (Alpha)
+                </button>
+            </div>
+
+            <!-- 封面上传 -->
+            <div class="form-group">
+                <label for="cover">上传新封面（可选）：</label>
+                <input
+                    type="file"
+                    id="cover"
+                    name="cover"
+                    accept=".png,.jpg,.jpeg"
+                    class="file-input"
+                />
+                <small>支持格式：PNG、JPG、JPEG，建议尺寸 300×300</small>
+            </div>
+
+            <!-- 新版本上传 -->
+            <div class="form-group">
+                <label for="new_version">上传新版本文件（可选）：</label>
+                <input
+                    type="file"
+                    id="new_version"
+                    name="new_version"
+                    accept=".sb3,.zip,.html"
+                    class="file-input"
+                />
+                <small>支持格式：.sb3（Scratch）.html（网页项目）</small>
+            </div>
+
+            <!-- 提交按钮 -->
+            <div class="form-group">
+                <input type="submit" value="保存更改" class="submit-btn" id="submit-btn" />
+            </div>
+        </form>
+
+        <!-- 提示信息 -->
+        <p class="info-text">
+            如遇问题，请联系管理员或加入 QQ 群：<a href="https://qm.qq.com/cgi-bin/qm/qr?k=1037989684" target="_blank">1037989684</a>
+        </p>
+        <p class="info-text">
+            <strong>注意：</strong>请勿上传违法、侵权或恶意代码内容。
+        </p> 页面展示项目基础统计数据，仅作参考。
+        </p> 
+    </div>
+
+    <footer>
+        {{ footer|safe }}
+    </footer>
+
+    <script>
+        // 主题切换（保留你的逻辑）
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme');
+            const newTheme = current === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // 点赞/收藏逻辑（不变）
+        document.addEventListener('click', async (e) => {
+            const target = e.target.closest('a[data-action]');
+            if (!target) return;
+            e.preventDefault();
+            const action = target.dataset.action;
+            const id = target.dataset.id;
+
+            try {
+                const res = await fetch(`/scratch${action}=${id}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action })
+                });
+
+                if (!res.ok) throw new Error('Network error');
+                const data = await res.json();
+                if (action === 'like') {
+                    target.textContent = `Likes: ${data.like}`;
+                } else if (action === 'star') {
+                    target.textContent = `Star: ${data.star}`;
+                }
+            } catch (err) {
+                console.error('操作失败:', err);
+                alert('操作频繁或网络错误');
+            }
+        });
+    </script>
+</body>
+</html>

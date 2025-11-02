@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>轻小说次元</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC :wght@400;700&family=Kaisei+Decol&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/a076d05399.js " crossorigin="anonymous"></script>
+
+  <style>
+    /* 基础设置 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: linear-gradient(135deg, #fdf6f0, #fceaea);
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .logo {
+      font-family: 'Kaisei Decol', cursive;
+      font-size: 1.8rem;
+      color: #ff6ec7;
+    }
+
+    /* 导航栏 */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      padding: 1rem 1.5rem;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #ff6ec7;
+      cursor: pointer;
+    }
+
+    .mobile-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      gap: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .mobile-menu.active {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .search-form {
+      flex: 1;
+      max-width: 60%;
+    }
+    .search-input {
+      width: 100%;
+      padding: 0.5rem 1rem;
+      border: 2px solid #ff6ec7;
+      border-radius: 30px;
+      outline: none;
+      font-size: 1rem;
+    }
+    .search-btn {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .search-form {
+        max-width: 80%;
+      }
+      .menu-toggle {
+        display: block;
+      }
+      .search-input {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+      }
+    }
+
+    /* 分类区域 */
+    .categories-section {
+      padding: 2rem 1rem;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 1.6rem;
+      margin-bottom: 1.5rem;
+      color: #ff6ec7;
+      position: relative;
+    }
+    .section-title::after {
+      content: '';
+      display: block;
+      margin: 0.5rem auto 1rem;
+      width: 60px;
+      height: 3px;
+      background: #ff6ec7;
+      border-radius: 2px;
+    }
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1.5rem;
+    }
+    .category-card {
+      background: white;
+      padding: 1.2rem;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+    .category-card:hover {
+      transform: translateY(-5px);
+    }
+    .category-icon {
+      font-size: 1.8rem;
+      color: #ff6ec7;
+      margin-bottom: 0.5rem;
+    }
+
+    /* 小说推荐卡片列表 */
+    .book-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      padding: 0 1rem 2rem;
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .book-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1025px) {
+      .book-list {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* 卡片链接样式 */
+    .book-card-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    /* 推荐卡片 */
+    .book-card {
+      display: flex;
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+      .book-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1rem 0;
+      }
+
+      .book-cover {
+        width: 140px;
+        height: auto;
+        max-width: 80%;
+        border-radius: 10px;
+      }
+
+      .book-info {
+        padding: 1rem 1rem 0 1rem;
+      }
+
+      .book-title {
+        font-size: 1.1rem;
+      }
+
+      .book-desc {
+        display: none;
+      }
+    }
+
+    .book-cover {
+      width: 120px;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .book-info {
+      padding: 1rem;
+      position: relative;
+    }
+
+    .book-title {
+      font-size: 1.2rem;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    .book-author {
+      color: #999;
+      font-size: 0.9rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .book-desc {
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    /* 底部 */
+    .footer {
+      background: #fff0f8;
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.9rem;
+      border-top: 1px solid #ffe6f2;
+    }
+
+    .social-icons a {
+      margin: 0 0.5rem;
+      color: #ff6ec7;
+      font-size: 1.2rem;
+      transition: color 0.3s ease;
+    }
+
+    .social-icons a:hover {
+      color: #e05ebe;
+    }
+  </style>
+</head>
+<body>
+
+<!-- 导航栏 -->
+<header class="navbar">
+  <div class="logo">轻小说次元</div>
+
+  <!-- 搜索表单 -->
+  <form class="search-form">
+    <input type="text" placeholder="搜索作品名称 / 作者..." class="search-input" />
+    <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
+  </form>
+
+  <!-- 移动端汉堡菜单按钮 -->
+  <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+
+  <!-- 移动端菜单面板 -->
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="#">首页</a>
+    <a href="#">排行榜</a>
+    <a href="#">书架</a>
+    <a href="#">登录</a>
+  </nav>
+</header>
+
+<!-- 分区分类 -->
+<section class="categories-section">
+  <h2 class="section-title">热门分类</h2>
+  <div class="category-grid">
+    <div class="category-card">
+      <i class="fas fa-fire-alt category-icon"></i>
+      <h3>人气榜</h3>
+    </div>
+    <div class="category-card">
+      <i class="fas fa-book-reader category-icon"></i>
+      <h3>新书速递</h3>
+    </div>
+    <div class="category-card">
+      <i class="fas fa-check-circle category-icon"></i>
+      <h3>已完结</h3>
+    </div>
+    <div class="category-card">
+      <i class="fas fa-users category-icon"></i>
+      <h3>同人专区</h3>
+    </div>
+  </div>
+<br/>
+<!-- 小说推荐卡片列表 -->
+<div class="book-list">
+  {% for book in books %}
+    <a href="{{ url_for('detail', book_id=book.id) }}" class="book-card-link">
+      <div class="book-card">
+        <img src="{{ book.cover }}" alt="小说封面" class="book-cover">
+        <div class="book-info">
+          <h3 class="book-title">{{ book.title }}</h3>
+          <p class="book-author">作者：{{ book.author }}</p>
+          <p class="book-desc">{{ book.desc }}</p>
+        </div>
+      </div>
+    </a>
+  {% endfor %}
+</div>
+
+
+
+<!-- 底部 -->
+<footer class="footer">
+  <p>© 2025 轻小说次元 · Powered by LN World</p>
+  <div class="social-icons">
+    <a href="#"><i class="fab fa-qq"></i></a>
+    <a href="#"><i class="fab fa-weixin"></i></a>
+    <a href="#"><i class="fab fa-bilibili"></i></a>
+  </div>
+</footer>
+
+<script>
+  // 移动菜单切换逻辑
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  menuToggle.addEventListener('click', () => {
+    mobileMenu.classList.toggle('active');
+  });
+</script>
+
+</body>
+</html>

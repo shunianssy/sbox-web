@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员表单</title>
+</head>
+<body>
+    <h1>管理员表单</h1>
+    <form method="POST">
+        <label for="selection">选择:</label>
+        <select name="selection" id="selection">
+            <option value="添加广告">添加广告</option>
+        </select>
+        <br><br>
+    
+        <label for="target">广告主id:</label>
+        <input type="text" id="target" name="target" required>
+        <br><br>
+    
+        <label for="reason">标题:</label>
+        <input type="text" id="reason" name="reason" required>
+        <br><br>
+    
+        <label for="lianjie">链接:</label>
+        <input type="text" id="lianjie" name="lianjie" required>
+        <br><br>
+    
+        <label for="number">数量:</label>
+        <input type="text" id="number" name="number" required>
+        <br><br>
+    
+        <button type="submit">提交</button>
+    </form>
+</body>
+</html>

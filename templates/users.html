@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品投稿</title>
+    <style>
+        body {
+            background: #F0F4E9;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .form-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .form-title {
+            color: #2C3E50;
+            font-size: 28px;
+            border-bottom: 2px solid #A3D0C3;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        .form-label {
+            display: block;
+            color: #34495E;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #E5E9F2;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        .form-control:focus {
+            border-color: #3498DB;
+            outline: none;
+        }
+        .textarea-control {
+            height: 200px;
+            resize: vertical;
+        }
+        .file-input {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            border: 2px dashed #A3D0C3;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .file-input:hover {
+            border-color: #3498DB;
+            background: #F8F9FA;
+        }
+        .submit-btn {
+            background: #3498DB;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        .submit-btn:hover {
+            background: #2980B9;
+            transform: translateY(-2px);
+        }
+        .tip {
+            color: #E74C3C;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+        .converter-link {
+            color: #3498DB;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .converter-link:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            .file-input {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-card">
+        <h1 class="form-title">改写个人中心</h1>
+        
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="form-label" for="name">个性贴</label>
+                <input type="text" class="form-control" id="gexing" name="gexing" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="jianjie">个人简介</label>
+                <textarea class="form-control textarea-control" id="jianjie" name="jianjie" required></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="submit-btn" value="">
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

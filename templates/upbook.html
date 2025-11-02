@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="Zn-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上传文章</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- 在 head 中提前运行脚本，防止 FOUC -->
+    <script>
+        // 立即读取主题，避免闪烁
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark'; // 默认 dark
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+
+</head>
+<body>
+    <nav>
+        <div class="menu-icon2">小盒子社区</div>
+        {{ nav|safe }}
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>上传文章</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="form-label" for="name">文章标题:</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ name }}" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="content">内容:</label>
+                <textarea class="form-control textarea-control" id="content" name="content" required style="height: 600px;">{{ text }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">所属小说集:</label>
+                <div>
+                    <input type="radio" name="create_new" value="0" id="exist" checked onchange="toggleNovelInput()">
+                    <label for="exist">选择已有</label>
+                    <select name="novel_name" id="novel_select">
+                        <option value="">(无)</option>
+                        {% for item in collections %}
+                                <option value="{{ item.id }}">{{ item.title }} (ID: {{ item.id }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="submit-btn">上传</button>
+            </div>
+        </form>
+    </div>
+
+    <footer>
+        {{ footer|safe }}
+    </footer>
+
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.querySelector('.dropdown');
+            dropdown.classList.toggle('open');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.getAttribute('data-theme') === 'light') {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        document.addEventListener('click', function (event) {
+            const dropdown = document.querySelector('.dropdown');
+            if (!dropdown.contains(event.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        // 页面加载时根据本地存储设置主题
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+        }
+
+        // 跳转到搜索页面
+        function navigateToSearch() {
+            window.location.href = "search";
+        }
+    </script>
+</body>
+</html>

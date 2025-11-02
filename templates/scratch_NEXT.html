@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>加载中 - 小盒子</title>
+    <style>
+        /* GitHub 风格基础样式 */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #24292f;
+            --border-color: #d0d7de;
+            --link-color: #0969da;
+            --nav-bg: #f6f8fa;
+            --tab-active-bg: #ffffff;
+            --tab-inactive-bg: #f6f8fa;
+            --header-height: 60px;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0d1117;
+            --text-color: #c9d1d9;
+            --border-color: #30363d;
+            --link-color: #58a6ff;
+            --nav-bg: #161b22;
+            --tab-active-bg: #0d1117;
+            --tab-inactive-bg: #161b22;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+
+        /* 顶部全局导航（模拟 GitHub 顶部栏） */
+        .global-nav {
+            height: var(--header-height);
+            background-color: var(--nav-bg);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+        }
+
+        .global-nav .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        .global-nav a {
+            color: #0d1117; /* GitHub light 模式的主文本色 */
+            text-decoration: none;
+        }
+        /* 项目页头部 */
+        .repo-header {
+            padding: 0px 15px;
+        }
+
+        .repo-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .author-info {
+            color: var(--text-color);
+            opacity: 0.75;
+            font-size: 14px;
+        }
+
+        .author-info a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        .author-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* 项目导航 tabs */
+        .repo-tabs {
+            display: flex;
+            list-style: none;
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 16px;
+
+        }
+
+        .repo-tabs li {
+            margin-bottom: -1px;
+        }
+
+        .repo-tabs a {
+            display: inline-block;
+            padding: 12px 16px;
+            text-decoration: none;
+            color: var(--text-color);
+            opacity: 0.75;
+            border: 1px solid transparent;
+            border-bottom: none;
+        }
+
+        .repo-tabs a:hover {
+            opacity: 1;
+        }
+
+        .repo-tabs a.active {
+            opacity: 1;
+            background: var(--tab-active-bg);
+            border-color: var(--border-color);
+            border-radius: 6px 6px 0 0;
+            color: var(--link-color);
+        }
+
+        /* 主内容区 */
+        .main-content {
+            padding: 24px 16px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Scratch 嵌入容器 */
+        .scratch-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 5px auto;
+            padding-top: 90%;
+            border-radius: 8px;
+            overflow: hidden;
+
+            -ms-overflow-style: none;  /* IE 和 Edge */
+            scrollbar-width: none;     /* Firefox */
+        }
+
+        .scratch-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scratch-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* 统计信息 */
+        .stats {
+            margin-top: 16px;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .stats a {
+            color: var(--link-color);
+            text-decoration: none;
+            margin-left: 12px;
+        }
+
+        .stats a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            padding: 24px 16px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-color);
+            opacity: 0.7;
+        }
+
+    /* 两栏布局容器 */
+    .content-wrapper {
+        display: flex;
+        gap: 24px;
+        max-width: 1800px;
+        margin: 0 auto;
+        padding: 0 16px;
+    }
+
+    .scratch-column {
+        flex: 3; /* 占 2/3 宽度 */
+        min-width: 0; /* 防止 flex 子项溢出 */
+    }
+
+    .about-column {
+        flex: 1; /* 占 1/3 宽度 */
+        background: var(--tab-active-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 16px;
+        font-size: 14px;
+    }
+
+    .about-column h3 {
+        margin-top: 0;
+        margin-bottom: 12px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .about-column p {
+        margin: 8px 0;
+    }
+
+    .about-column a {
+        color: var(--link-color);
+        text-decoration: none;
+    }
+
+    .about-column a:hover {
+        text-decoration: underline;
+    }
+
+    /* 响应式：小屏时变为单列 */
+    @media (max-width: 768px) {
+        .content-wrapper {
+            flex-direction: column;
+        }
+
+        .scratch-column,
+        .about-column {
+            width: 100%;
+        }
+
+        .about-column {
+            margin-top: 20px;
+        }
+    }
+    </style>
+</head>
+<body>
+    <header class="global-nav">
+        <h2>Sbox / <a id="author-link" href="#">作者</a> / <span id="filename">加载中...</span></h2>
+    </header>
+
+    <ul class="repo-tabs">
+        <li><a href="#" class="tab-link active" data-page="code">Code</a></li>
+        <li><a href="#" class="tab-link" data-page="Issues">Issues</a></li>
+        <li><a href="#" class="tab-link" data-page="wikis">Wiki</a></li>
+        <li><a href="#" class="tab-link" data-page="master">Insights</a></li>
+        <li id="management-tab" style="display:none;"><a href="#" class="tab-link" data-page="management">管理</a></li>
+        <li><a href="#" class="tab-link" data-page="Download">Clone</a></li>
+        <li><a href="#" id="license-link">License: 加载中...</a></li>
+    </ul>
+
+    <div class="repo-header">
+        <div class="stats">
+            <span>Views: <span id="views">0</span></span>
+            <a href="#" id="like-btn">Likes: <span id="likes">0</span></a>
+            <a href="#" id="star-btn">Star: <span id="stars">0</span></a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="content-wrapper">
+            <div class="scratch-column">
+                <div class="scratch-container">
+                    <iframe id="scratch-iframe" src="" title="Scratch 项目" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="about-column">
+                <h3>About</h3>
+                <p><strong>Name：</strong><span id="about-filename">-</span></p>
+                <p><strong>Readme</strong></p>
+                <p><strong>Author：</strong><a id="about-author-link" href="#">-</a></p>
+                <p><strong>License：</strong><span id="about-license">-</span></p>
+                <p><strong>tage：</strong><span id="raw_tage">-</span></p>
+                <div class="stats">
+                    <p>Views: <span id="about-views">0</span></p>
+                    <p>Likes: <span id="about-likes">0</span></p>
+                    <p>Star: <span id="about-stars">0</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="content-wrapper">
+        <h3>README</h3><br>
+        <p><span id="raw_jianjie">-</span></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 小盒子社区</p>
+    </footer>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+
+        if (!id) {
+            document.body.innerHTML = '<h1>作品ID缺失</h1>';
+            // 可选：提前退出或停止后续逻辑
+            throw new Error('Missing ID parameter');
+        }
+
+        // 主题切换（保留）
+        (function () {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme');
+            const newTheme = current === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // 加载作品数据
+        async function loadWork() {
+            try {
+                const res = await fetch(`https://sboxapi.yearnstudio.cn/api/scratch/${id}`);
+                if (!res.ok) throw new Error('作品加载失败');
+                const data = await res.json();
+
+                // 更新页面
+                document.title = `小盒子-${data.filename}`;
+                document.getElementById('filename').textContent = data.filename;
+                document.getElementById('author-link').href = `https://sboxapi.yearnstudio.cn${data.author_url}`;
+                document.getElementById('author-link').textContent = data.author;
+
+                document.getElementById('views').textContent = data.views;
+                document.getElementById('likes').textContent = data.likes;
+                document.getElementById('stars').textContent = data.stars;
+
+                const embedUrl = `https://sboxapi.yearnstudio.cn/works/${id}`;
+                document.getElementById('scratch-iframe').src = embedUrl;
+
+                document.getElementById('license-link').textContent = `License: ${data.license}`;
+                document.getElementById('license-link').href = `https://sboxapi.yearnstudio.cn/scratch/${id}?page=license`;
+
+                // About 栏  raw_tage about_Readme
+                document.getElementById('about-filename').textContent = data.filename;
+
+                document.getElementById('about-author-link').href = `https://sboxapi.yearnstudio.cn${data.author_url}`;
+                document.getElementById('about-author-link').textContent = data.author;
+                document.getElementById('about-license').textContent = data.license;
+                document.getElementById('about-views').textContent = data.views;
+                document.getElementById('about-likes').textContent = data.likes;
+                document.getElementById('about-stars').textContent = data.stars;
+
+                document.getElementById('raw_jianjie').textContent = data.raw_jianjie;
+                document.getElementById('raw_tage').textContent = data.raw_tage;
+
+                // 显示管理按钮（如果是作者）
+                if (data.is_author) {
+                    document.getElementById('management-tab').style.display = 'block';
+                }
+            } catch (err) {
+                console.error(err);
+                document.body.innerHTML = `<h1>加载失败：${err.message}</h1>`;
+            }
+        }
+
+        // 点赞/收藏
+        document.getElementById('like-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            handleAction('like');
+        });
+        document.getElementById('star-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            handleAction('star');
+        });
+
+        async function handleAction(action) {
+            try {
+                const res = await fetch(`https://sboxapi.yearnstudio.cn/api/scratch/${id}/${action}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    if (action === 'like') {
+                        document.getElementById('likes').textContent = data.like;
+                        document.getElementById('about-likes').textContent = data.like;
+                    } else {
+                        document.getElementById('stars').textContent = data.star;
+                        document.getElementById('about-stars').textContent = data.star;
+                    }
+                } else {
+                    alert(data.error || '操作失败');
+                }
+            } catch (err) {
+                alert('网络错误');
+            }
+        }
+
+        // Tab 切换（简单处理，跳转到旧页面或新页面）
+        document.querySelectorAll('.tab-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const page = link.dataset.page;
+                if (page === 'code') {
+                    // 当前页就是 code，无需跳转
+                    return;
+                }
+                // 其他页面暂时跳转到原 Flask 页面（后续可逐步 API 化）
+                window.location.href = `https://sboxapi.yearnstudio.cn/scratch/${id}?page=${page}`;
+            });
+        });
+
+        // 初始化
+        loadWork();
+    </script>
+</body>
+</html>

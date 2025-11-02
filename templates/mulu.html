@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>春风十里不如你 - 目录</title>
+  <!-- 引入字体 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC :wght@400;700&family=Kaisei+Decol&display=swap" rel="stylesheet">
+  <style>
+    /* 基础设置 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: linear-gradient(135deg, #fdf6f0, #fceaea);
+      color: #333;
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .book-header {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .book-cover {
+      width: 140px;
+      height: auto;
+      aspect-ratio: 2 / 3;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .book-title {
+      font-size: 1.8rem;
+      color: #ff6ec7;
+      font-family: 'Kaisei Decol', cursive;
+      margin-bottom: 0.5rem;
+    }
+
+    .book-author {
+      font-size: 1rem;
+      color: #999;
+    }
+
+    .directory-list {
+      list-style: none;
+    }
+
+    .chapter-group {
+      margin-bottom: 2rem;
+    }
+
+    .group-title {
+      font-size: 1.2rem;
+      color: #ff6ec7;
+      margin-bottom: 0.8rem;
+      border-left: 4px solid #ff6ec7;
+      padding-left: 0.5rem;
+    }
+
+    .chapter-item {
+      margin-bottom: 0.5rem;
+    }
+
+    .chapter-link {
+      display: block;
+      padding: 0.6rem 1rem;
+      border-radius: 12px;
+      text-decoration: none;
+      color: #333;
+      transition: background-color 0.3s ease;
+      border: 1px solid transparent;
+    }
+
+    .chapter-link:hover {
+      background-color: #fff0f8;
+      border-color: #ffe6f2;
+    }
+
+    @media (max-width: 600px) {
+      .book-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .book-cover {
+        width: 120px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- 小说信息 -->
+  <div class="book-header">
+    <img src="https://via.placeholder.com/140x210.png?text= 封面图" alt="小说封面" class="book-cover" />
+    <div>
+      <h2 class="book-title">春风十里不如你</h2>
+      <p class="book-author">作者：林小满</p>
+    </div>
+  </div>
+
+  <!-- 目录列表 -->
+  <ul class="directory-list">
+
+    <li class="chapter-group">
+      <h3 class="group-title">第一卷：初遇</h3>
+      <ul>
+        <li class="chapter-item">
+          <a href="read.html" class="chapter-link">第1章 初遇</a>
+        </li>
+        <li class="chapter-item">
+          <a href="#" class="chapter-link">第2章 樱花树下</a>
+        </li>
+        <li class="chapter-item">
+          <a href="#" class="chapter-link">第3章 图书馆偶遇</a>
+        </li>
+      </ul>
+    </li>
+
+    <li class="chapter-group">
+      <h3 class="group-title">第二卷：成长</h3>
+      <ul>
+        <li class="chapter-item">
+          <a href="#" class="chapter-link">第4章 雨中的约定</a>
+        </li>
+        <li class="chapter-item">
+          <a href="#" class="chapter-link">第5章 运动会风波</a>
+        </li>
+        <li class="chapter-item">
+          <a href="#" class="chapter-link">第6章 暑假旅行</a>
+        </li>
+      </ul>
+    </li>
+
+    <li class="chapter-group">
+      <h3 class="group-title">番外篇</h3>
+      <ul>
+        <li class="chapter-item">
+          <a href="#" class="chapter-link">番外1：他的日记</a>
+        </li>
+        <li class="chapter-item">
+          <a href="#" class="chapter-link">番外2：她的信</a>
+        </li>
+      </ul>
+    </li>
+
+  </ul>
+
+</div>
+
+</body>
+</html>

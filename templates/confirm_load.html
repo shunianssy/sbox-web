@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>加载大型项目</title>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+    .btn { margin: 10px; padding: 10px 20px; font-size: 16px; }
+    .warning { color: red; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <p class="warning">项目大小为 {{ size }} MB，可能加载较慢或消耗较多内存。</p>
+  <p>该项目貌似有一点大，加载时间比较久，请耐心等待</p>
+  <a href="/works/{{ id }}?confirm=true"><button class="btn">我已知晓，继续加载</button></a>
+</body>
+</html>

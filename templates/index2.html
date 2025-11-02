@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小盒子社区</title>
+    <style>
+        :root {
+            --primary-bg-color: #000;
+            --secondary-bg-color: #1a1a1a;
+            --text-color: #00ffcc;
+            --link-color: #00ffcc;
+            --card-bg-color: #222;
+            --card-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+            --font-size: 16px;
+            --transition-time: 0.3s;
+        }
+
+        [data-theme="light"] {
+            --primary-bg-color: #f0f8ff;
+            --secondary-bg-color: #e0f7fa;
+            --text-color: #00796b;
+            --link-color: #00796b;
+            --card-bg-color: #fff;
+            --card-shadow: 0 0 10px rgba(0, 121, 107, 0.3);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--primary-bg-color);
+            padding-bottom: 50px;
+            color: var(--text-color);
+            transition: background-color var(--transition-time) ease, color var(--transition-time) ease;
+            font-size: var(--font-size);
+        }
+
+        a {
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            color: var(--link-color);
+            transition: color var(--transition-time) ease;
+        }
+
+nav {
+    background-color: var(--secondary-bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%; /* 确保导航栏宽度为 100% */
+    margin-left: auto;
+}
+
+
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-left: auto;
+        }
+
+        .menu-icon2 {
+            font-size: 24px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-right: auto;
+        }
+
+        .dropdown {
+            position: relative;
+            background-color: var(--secondary-bg-color);
+            color: var(--text-color);
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color var(--transition-time) ease;
+        }
+
+        .dropdown-content {
+            display: none;
+            background-color: var(--secondary-bg-color);
+            color: var(--text-color);
+            position: fixed;
+            top: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            z-index: 1000;
+            transition: top var(--transition-time) ease;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: background-color var(--transition-time) ease;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #333;
+        }
+
+        .dropdown.open .dropdown-content {
+            top: 50px;
+            display: block;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 30px 40px;
+            padding: 20px;
+            justify-items: center;
+            max-width: 100%;
+            box-sizing: border-box;
+            margin: 0 auto;
+            padding-bottom: 70px;
+        }
+
+        .card {
+            background-color: var(--card-bg-color);
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            width: 100%;
+            position: relative;
+            transition: background-color var(--transition-time) ease, box-shadow var(--transition-time) ease, transform var(--transition-time) ease;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card h3 {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-color);
+            margin: 0;
+            padding-bottom: 10px;
+            background-color: transparent;
+            width: 100%;
+            padding: 5px 0;
+        }
+
+        .card::before {
+            content: '';
+            display: block;
+            padding-top: 100%;
+        }
+
+        .card img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 8px;
+        }
+
+        .card h2,
+        h3 {
+            color: var(--text-color);
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        footer {
+            background-color: var(--secondary-bg-color);
+            color: var(--text-color);
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            clear: both;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-toggle {
+            background-color: transparent;
+            border: none;
+            color: var(--text-color);
+            font-size: 24px;
+            cursor: pointer;
+            transition: color var(--transition-time) ease;
+        }
+
+        .theme-toggle:hover {
+            color: #ccc;
+        }
+
+        .toolbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .font-size-btn {
+            background-color: transparent;
+            border: none;
+            color: var(--text-color);
+            font-size: 20px;
+            cursor: pointer;
+            transition: color var(--transition-time) ease;
+        }
+
+        .font-size-btn:hover {
+            color: #ccc;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="menu-icon2">小盒子社区</div>
+        <div class="dropdown" onclick="toggleDropdown()">
+            ☰
+            <div class="dropdown-content">
+                <a href="">首页</a>
+                <a href="scratchphoto/">个人中心</a>
+                <a href="tougaoscratch">投稿scratch</a>
+                <a href="{{ url_for('logout') }}">登出</a>
+                <a href="users">用户更改</a>
+            </div>
+        </div>
+        <div class="toolbox">
+            <button class="theme-toggle" onclick="toggleTheme()">&#9788;</button>
+            <button class="font-size-btn" onclick="increaseFontSize()">&#43;</button>
+            <button class="font-size-btn" onclick="decreaseFontSize()">&#8722;</button>
+        </div>
+    </nav>
+    <h2>优秀作品喵~</h2>
+    <div class="container">
+        <a href="/scratch/{{ Excellent_scratch_1 }}" class="card">
+            <img src="/scratchphoto={{ Excellent_scratch_1 }}" alt="封面">
+            <h3>{{ Excellent_scratch_work_1 }}</h3>
+        </a>
+        <a href="/scratch/{{ Excellent_scratch_2 }}" class="card">
+            <img src="/scratchphoto={{ Excellent_scratch_2 }}" alt="封面">
+            <h3>{{ Excellent_scratch_work_2 }}</h3>
+        </a>
+        <a href="/scratch/{{ Excellent_scratch_3 }}" class="card">
+            <img src="/scratchphoto={{ Excellent_scratch_3 }}" alt="封面">
+            <h3>{{ Excellent_scratch_work_3 }}</h3>
+        </a>
+        <a href="/scratch/{{ Excellent_scratch_4 }}" class="card">
+            <img src="/scratchphoto={{ Excellent_scratch_4 }}" alt="封面">
+            <h3>{{ Excellent_scratch_work_4 }}</h3>
+        </a>
+        <a href="/scratch/{{ Excellent_scratch_5 }}" class="card">
+            <img src="/scratchphoto={{ Excellent_scratch_5 }}" alt="封面">
+            <h3>{{ Excellent_scratch_work_5 }}</h3>
+        </a>
+        <a href="/scratch/{{ Excellent_scratch_6 }}" class="card">
+            <img src="/scratchphoto={{ Excellent_scratch_6 }}" alt="封面">
+            <h3>{{ Excellent_scratch_work_6 }}</h3>
+        </a>
+    </div>
+    <h2>发现佳作喵~</h2>
+    <div class="container">
+        <a href="/scratch/{{ scid1 }}" class="card">
+            <img src="" alt="">
+            <h3>{{ zhuopin1 }}</h3>
+        </a>
+        <a href="/scratch/{{ scid2 }}" class="card">
+            <img src="" alt="">
+            <h3>{{ zhuopin2 }}</h3>
+        </a>
+        <a href="/scratch/{{ scid3 }}" class="card">
+            <img src="" alt="">
+            <h3>{{ zhuopin3 }}</h3>
+        </a>
+        <a href="/scratch/{{ scid4 }}" class="card">
+            <img src="" alt="">
+            <h3>{{ zhuopin4 }}</h3>
+        </a>
+        <a href="/scratch/{{ scid5 }}" class="card">
+            <img src="" alt="">
+            <h3>{{ zhuopin5 }}</h3>
+        </a>
+        <a href="/scratch/{{ scid6 }}" class="card">
+            <img src="" alt="">
+            <h3>{{ zhuopin6 }}</h3>
+        </a>
+        <a href="/scratch/{{ scid7 }}" class="card">
+            <img src="" alt="">
+            <h3>{{ zhuopin7 }}</h3>
+        </a>
+        <a href="/scratch/{{ scid8 }}" class="card">
+            <img src="" alt="">
+            <h3>{{ zhuopin8 }}</h3>
+        </a>
+        <a href="/scratch/{{ scid9 }}" class="card">
+            <img src="" alt="">
+            <h3>{{ zhuopin9 }}</h3>
+        </a>
+        <a href="/scratch/{{ scid10 }}" class="card">
+            <img src="" alt="">
+            <h3>{{ zhuopin10 }}</h3>
+        </a>
+        <a href="/scratch/{{ scid11 }}" class="card">
+            <img src="" alt="">
+            <h3>{{ zhuopin11 }}</h3>
+        </a>
+        <a href="/scratch/{{ scid12 }}" class="card">
+            <img src="" alt="">
+            <h3>{{ zhuopin12 }}</h3>
+        </a>
+    </div>
+    <footer>
+        <p>2025 小盒子社区</p>
+        <p>代理官方：<a href="https://space.bilibili.com/3493133419546943?spm_id_from=333.1296.0.0">bilibili</a></p>
+        <p>QQ交流群：1037989684</p>
+    </footer>
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.querySelector('.dropdown');
+            dropdown.classList.toggle('open');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.getAttribute('data-theme') === 'light') {
+                html.removeAttribute('data-theme');
+            } else {
+                html.setAttribute('data-theme', 'light');
+            }
+        }
+
+        function increaseFontSize() {
+            const root = document.documentElement;
+            let currentSize = parseFloat(getComputedStyle(root).getPropertyValue('--font-size'));
+            root.style.setProperty('--font-size', (currentSize + 1) + 'px');
+        }
+
+        function decreaseFontSize() {
+            const root = document.documentElement;
+            let currentSize = parseFloat(getComputedStyle(root).getPropertyValue('--font-size'));
+            if (currentSize > 10) {
+                root.style.setProperty('--font-size', (currentSize - 1) + 'px');
+            }
+        }
+
+        document.addEventListener('click', function (event) {
+            const dropdown = document.querySelector('.dropdown');
+            const dropdownContent = document.querySelector('.dropdown-content');
+            if (!dropdown.contains(event.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+    </script>
+</body>
+
+</html>    

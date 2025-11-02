@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="Zn-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小盒子社区-新一代scratch社区</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+    <style>
+        .quick-nav {
+            padding: 1rem 0;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .quick-nav a {
+            color: #4a90e2;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+
+        .quick-nav a:hover {
+            text-decoration: underline;
+        }
+            </style>
+    <!-- 在 head 中提前运行脚本，防止 FOUC -->
+    <script>
+        // 立即读取主题，避免闪烁
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark'; // 默认 dark
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    
+</head>
+<body>
+    <nav>
+        <div class="menu-icon2">小盒子社区</div>
+        {{ nav|safe }}
+    </nav>
+    </section>
+    <h2>优秀作品喵~</h2>
+    <div class="container">
+        <a href="/scratch/{{ Excellent_scratch_1 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ Excellent_scratch_1 }}" alt="封面">
+            <h3>{{ Excellent_scratch_work_1 }}</h3>
+        </a>
+        <a href="/scratch/{{ Excellent_scratch_2 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ Excellent_scratch_2 }}" alt="封面">
+            <h3>{{ Excellent_scratch_work_2 }}</h3>
+        </a>
+        <a href="/scratch/{{ Excellent_scratch_3 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ Excellent_scratch_3 }}" alt="封面">
+            <h3>{{ Excellent_scratch_work_3 }}</h3>
+        </a>
+        <a href="/scratch/{{ Excellent_scratch_4 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ Excellent_scratch_4 }}" alt="封面">
+            <h3>{{ Excellent_scratch_work_4 }}</h3>
+        </a>
+        <a href="/scratch/{{ Excellent_scratch_5 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ Excellent_scratch_5 }}" alt="封面">
+            <h3>{{ Excellent_scratch_work_5 }}</h3>
+        </a>
+        <a href="/scratch/{{ Excellent_scratch_6 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ Excellent_scratch_6 }}" alt="封面">
+            <h3>{{ Excellent_scratch_work_6 }}</h3>
+        </a>
+    </div>
+
+    <h2>小编推荐喵~</h2>
+    <div class="container">
+        <a href="/scratch/{{ Excellent_scratch_7 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ Excellent_scratch_7 }}" alt="封面">
+            <h3>{{ Excellent_scratch_work_7 }}</h3>
+        </a>
+        <a href="/scratch/{{ Excellent_scratch_8 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ Excellent_scratch_8 }}" alt="封面">
+            <h3>{{ Excellent_scratch_work_8 }}</h3>
+        </a>
+        <a href="/scratch/{{ Excellent_scratch_9 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ Excellent_scratch_9 }}" alt="封面">
+            <h3>{{ Excellent_scratch_work_9 }}</h3>
+        </a>
+        <a href="/scratch/{{ Excellent_scratch_10 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ Excellent_scratch_10 }}" alt="封面">
+            <h3>{{ Excellent_scratch_work_10 }}</h3>
+        </a>
+        <a href="/scratch/{{ Excellent_scratch_11 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ Excellent_scratch_11 }}" alt="封面">
+            <h3>{{ Excellent_scratch_work_11 }}</h3>
+        </a>
+        <a href="/scratch/{{ Excellent_scratch_12 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ Excellent_scratch_12 }}" alt="封面">
+            <h3>{{ Excellent_scratch_work_12 }}</h3>
+        </a>
+    </div>
+    
+    <h2>发现佳作喵~</h2>
+    <div class="container">
+        <a href="/scratch/{{ scid1 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ scid1 }}" alt="">
+            <h3>{{ zhuopin1 }}</h3>
+        </a>
+        <a href="/scratch/{{ scid2 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ scid2 }}" alt="">
+            <h3>{{ zhuopin2 }}</h3>
+        </a>
+        <a href="/scratch/{{ scid3 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ scid3 }}" alt="">
+            <h3>{{ zhuopin3 }}</h3>
+        </a>
+        <a href="/scratch/{{ scid4 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ scid4 }}" alt="">
+            <h3>{{ zhuopin4 }}</h3>
+        </a>
+        <a href="/scratch/{{ scid5 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ scid5 }}" alt="">
+            <h3>{{ zhuopin5 }}</h3>
+        </a>
+        <a href="/scratch/{{ scid6 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ scid6 }}" alt="">
+            <h3>{{ zhuopin6 }}</h3>
+        </a>
+    </div>
+
+    <h2>发现新作喵~</h2>
+    <div class="container">
+        <a href="/scratch/{{ scid7 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ scid7 }}" alt="">
+            <h3>{{ zhuopin7 }}</h3>
+        </a>
+        <a href="/scratch/{{ scid8 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ scid8 }}" alt="">
+            <h3>{{ zhuopin8 }}</h3>
+        </a>
+        <a href="/scratch/{{ scid9 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ scid9 }}" alt="">
+            <h3>{{ zhuopin9 }}</h3>
+        </a>
+        <a href="/scratch/{{ scid10 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ scid10 }}" alt="">
+            <h3>{{ zhuopin10 }}</h3>
+        </a>
+        <a href="/scratch/{{ scid11 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ scid11 }}" alt="">
+            <h3>{{ zhuopin11 }}</h3>
+        </a>
+        <a href="/scratch/{{ scid12 }}" class="card">
+            <img src="https://sboxapi.yearnstudio.cn/scratchphoto/{{ scid12 }}" alt="">
+            <h3>{{ zhuopin12 }}</h3>
+        </a>
+    </div>
+    
+
+
+    <footer>
+        {{ footer|safe }}
+    </footer>
+
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.querySelector('.dropdown');
+            dropdown.classList.toggle('open');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.getAttribute('data-theme') === 'light') {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        document.addEventListener('click', function (event) {
+            const dropdown = document.querySelector('.dropdown');
+            if (!dropdown.contains(event.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        // 页面加载时根据本地存储设置主题
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+        }
+
+        // 跳转到搜索页面
+        function navigateToSearch() {
+            window.location.href = "search";
+        }
+
+        console.info('加载成功，小盒子版本号：1.7.6');
+        console.info('未修改前端');
+    </script>
+</body>
+</html>

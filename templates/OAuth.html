@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>注册 OAuth 应用</title>
+  <style>
+    body {
+      font-family: "Microsoft YaHei", sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      width: 100%;
+      max-width: 500px;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 24px;
+    }
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      font-weight: bold;
+      color: #555;
+    }
+    input[type="text"], input[type="url"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #e8f5e8;
+      border: 1px solid #a6d6a6;
+      border-radius: 6px;
+      word-break: break-all;
+    }
+    .error {
+      background-color: #ffe8e8;
+      border: 1px solid #d6a6a6;
+      color: #c00;
+    }
+    .copy-btn {
+      margin-top: 10px;
+      padding: 6px 10px;
+      font-size: 14px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .copy-btn:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>注册 OAuth 应用</h1>
+    <form id="registerForm">
+      <label for="appName">应用名称</label>
+      <input type="text" id="appName" name="appName" placeholder="例如：我的博客系统" required />
+
+      <label for="redirectUri">回调地址（Redirect URI）</label>
+      <input type="url" id="redirectUri" name="redirectUri" placeholder="https://yourdomain.com/callback" required />
+
+      <button type="submit">注册应用</button>
+    </form>
+
+    <div id="result" style="display: none;"></div>
+  </div>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const appName = document.getElementById("appName").value.trim();
+      const redirectUri = document.getElementById("redirectUri").value.trim();
+
+      const resultDiv = document.getElementById("result");
+      resultDiv.style.display = "block";
+      resultDiv.className = ""; // 清除之前的类
+
+      try {
+        const res = await fetch("http://192.168.1.9:5219//oauth/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ app_name: appName, redirect_uri: redirectUri })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          resultDiv.className = "result";
+          resultDiv.innerHTML = `
+            <strong>✅ 注册成功！</strong><br><br>
+            <strong>Client ID:</strong><br>
+            <code>${data.client_id}</code><br><br>
+            <strong>Client Secret:</strong><br>
+            <code>${data.client_secret}</code><br><br>
+            <button class="copy-btn" onclick="copyCredentials()">复制全部</button>
+          `;
+        } else {
+          resultDiv.className = "result error";
+          resultDiv.innerHTML = `<strong>❌ 注册失败：</strong>${data.error || '未知错误'}`;
+        }
+      } catch (err) {
+        resultDiv.className = "result error";
+        resultDiv.innerHTML = `<strong>❌ 请求失败：</strong>请检查服务是否运行（后端是否启动？CORS？）<br>错误: ${err.message}`;
+      }
+    });
+
+    // 复制功能
+    function copyCredentials() {
+      const codeElements = document.querySelectorAll("code");
+      const texts = Array.from(codeElements).map(el => el.textContent).join('\n');
+      navigator.clipboard.writeText(texts).then(() => {
+        alert("已复制 Client ID 和 Secret 到剪贴板！");
+      }).catch(err => {
+        alert("复制失败: " + err);
+      });
+    }
+  </script>
+
+</body>
+</html>

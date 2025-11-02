@@ -1,0 +1,9 @@
+<h2>双因素认证</h2>
+<p>Scan this QR code with Google Authenticator, Authy, or similar app:</p>
+<img src="data:image/png;base64,{{ qr_b64 }}" alt="QR Code" />
+<p>然后输入6位代码：</p>
+<form method="post">
+    <input type="text" name="token" placeholder="123456" maxlength="6" required />
+    <button type="submit">Verify and Enable</button>
+</form>
+<a href="/">Cancel</a>

@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Ad Link</title>
+    <script>
+        // 使用fetch获取API数据并展示超链接
+        window.onload = function() {
+            fetch('http://192.168.1.10:5219//api/ad/d/1')
+                .then(response => response.json())
+                .then(data => {
+                    // 获取API返回的数据
+                    const adTitle = data.Adtitle;
+                    const linkUrl = data.Link;
+                    
+                    // 创建超链接
+                    const adLink = document.createElement('a');
+                    adLink.href = linkUrl;
+                    adLink.target = '_blank';
+                    adLink.innerText = adTitle;
+                    
+                    // 将超链接添加到页面中
+                    document.getElementById('ad-container').appendChild(adLink);
+                })
+                .catch(error => console.error('Error fetching ad data:', error));
+        };
+    </script>
+</head>
+<body>
+    <div id="ad-container">
+        <!-- 广告链接会显示在这里 -->
+    </div>
+</body>
+</html>

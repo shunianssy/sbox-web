@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>春风十里不如你 - 第1章 初遇</title>
+  <!-- 引入字体 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC :wght@400;700&family=Kaisei+Decol&display=swap" rel="stylesheet">
+  <style>
+    /* 基础设置 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: linear-gradient(135deg, #fdf6f0, #fceaea);
+      color: #333;
+      line-height: 1.8;
+      padding: 1rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .chapter-title {
+      font-size: 1.6rem;
+      text-align: center;
+      color: #ff6ec7;
+      font-family: 'Kaisei Decol', cursive;
+      margin-bottom: 1.5rem;
+    }
+
+    .chapter-text {
+      font-size: 1.1rem;
+      white-space: pre-line;
+      color: #333;
+      line-height: 2;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .nav-btn {
+      flex: 1 1 auto;
+      max-width: 200px;
+      padding: 0.6rem 1rem;
+      border-radius: 25px;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      background-color: #ff6ec7;
+      color: white;
+      text-decoration: none;
+      text-align: center;
+      transition: background-color 0.3s ease;
+    }
+
+    .nav-btn:hover {
+      background-color: #e05ebe;
+    }
+
+    .nav-btn.disabled {
+      background-color: #ddd;
+      color: #aaa;
+      cursor: not-allowed;
+    }
+
+    .font-controls {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .font-controls button {
+      margin: 0 0.5rem;
+      padding: 0.4rem 0.8rem;
+      border: 1px solid #ff6ec7;
+      border-radius: 20px;
+      background: white;
+      color: #ff6ec7;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .font-controls button:hover {
+      background-color: #ff6ec7;
+      color: white;
+    }
+
+    /* 加入书架按钮 */
+    .add-bookshelf {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .bookshelf-btn {
+      padding: 0.6rem 1.5rem;
+      border-radius: 30px;
+      border: none;
+      background-color: #fff0f8;
+      color: #ff6ec7;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 6px rgba(255, 110, 199, 0.2);
+    }
+
+    .bookshelf-btn:hover {
+      background-color: #ffe6f2;
+    }
+
+    .bookshelf-btn.active {
+      background-color: #ff6ec7;
+      color: white;
+    }
+
+    /* 夜间模式（可选） */
+    body.night-mode {
+      background: #1a1a1a;
+      color: #eee;
+    }
+
+    body.night-mode .container {
+      background: #2c2c2c;
+      color: #eee;
+    }
+
+    body.night-mode .chapter-text {
+      color: #eee;
+    }
+
+    body.night-mode .nav-btn {
+      background-color: #d63384;
+    }
+
+    body.night-mode .nav-btn:hover {
+      background-color: #c21f6f;
+    }
+
+    body.night-mode .bookshelf-btn {
+      background-color: #3b3b3b;
+      color: #ffe6f2;
+      border: 1px solid #ffe6f2;
+    }
+
+    body.night-mode .bookshelf-btn.active {
+      background-color: #d63384;
+      color: white;
+    }
+
+    .toggle-night {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+      border: none;
+      background-color: #ff6ec7;
+      color: white;
+      cursor: pointer;
+      z-index: 1000;
+      font-size: 0.9rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .toggle-night:hover {
+      background-color: #e05ebe;
+    }
+
+    @media (max-width: 600px) {
+      .nav-buttons {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 夜间模式切换按钮 -->
+  <button class="toggle-night" onclick="toggleNightMode()">🌙 夜间模式</button>
+
+  <div class="container">
+
+    <!-- 章节标题 -->
+    <h2 class="chapter-title">第1章 初遇</h2>
+
+    <!-- 章节文本 -->
+    <div id="chapterText" class="chapter-text">
+      那是一个阳光明媚的午后，风轻轻吹过校园的樱花林。
+      我正坐在长椅上看书，忽然听到有人在喊我的名字。
+      抬头一看，是她——穿着白色连衣裙，笑容像春风一样温暖。
+      从那一刻起，我知道，我的世界开始不一样了。
+
+      ——《春风十里不如你》
+    </div>
+
+    <!-- 字体控制 -->
+    <div class="font-controls">
+      <button onclick="changeFontSize(-1)">-</button>
+      <span>字体大小</span>
+      <button onclick="changeFontSize(1)">+</button>
+    </div>
+
+    <!-- 加入书架按钮 -->
+    <div class="add-bookshelf">
+      <button id="addToBookshelf" class="bookshelf-btn">➕ 加入书架</button>
+    </div>
+
+    <!-- 上一章 / 下一章按钮 -->
+    <div class="nav-buttons">
+      <a href="#" class="nav-btn disabled">❮ 上一章</a>
+      <a href="#" class="nav-btn">下一章 ❯</a>
+    </div>
+
+  </div>
+
+  <script>
+    // 切换夜间模式
+    function toggleNightMode() {
+      document.body.classList.toggle('night-mode');
+    }
+
+    // 调整字体大小
+    let fontSize = 1.1;
+
+    function changeFontSize(delta) {
+      fontSize += delta;
+      if (fontSize < 0.8) fontSize = 0.8;
+      if (fontSize > 1.6) fontSize = 1.6;
+      document.getElementById('chapterText').style.fontSize = fontSize + 'rem';
+    }
+
+    // 加入书架功能
+    document.getElementById('addToBookshelf').addEventListener('click', function () {
+      const btn = this;
+      if (btn.classList.contains('active')) {
+        // 已加入，点击取消
+        btn.textContent = '➕ 加入书架';
+        btn.classList.remove('active');
+        alert('已从书架移除');
+      } else {
+        // 尚未加入，点击加入
+        btn.textContent = '✅ 已加入';
+        btn.classList.add('active');
+        alert('已成功加入书架');
+      }
+    });
+  </script>
+
+</body>
+</html>

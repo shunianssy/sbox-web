@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="Zn-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>打赏</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- 在 head 中提前运行脚本，防止 FOUC -->
+    <script>
+        // 立即读取主题，避免闪烁
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark'; // 默认 dark
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+
+</head>
+<body>
+    <nav>
+        <div class="menu-icon2">小盒子社区</div>
+        {{ nav|safe }}
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>打赏物品</h1>
+        <a href="http://www.ifdian.net/item/e564c8fe856c11f0ad0452540025c377">小花花（1元）</a> | <a href="http://www.ifdian.net/item/224cbddc863311f0ad895254001e7c00">小鱼干（3元）</a>
+
+        <h1>打赏</h1>
+        <p>确认打赏作品:{{ bookname }}#{{ id }}，选择错概不处理</p>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="form-label" for="name">打赏码:</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ name }}" required>
+            </div>
+            <p>未成年人请在家长同意的前提下适当奖励自己喜欢的作者，由于平台流动的手续费，只能退还94%</p>
+            <p>出错不要紧，发给sbox520@163.com寻求帮助</p>
+
+            <div class="form-group">
+                <button type="submit" class="submit-btn">上传</button>
+            </div>
+        </form>
+    </div>
+
+    <footer>
+        {{ footer|safe }}
+    </footer>
+
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.querySelector('.dropdown');
+            dropdown.classList.toggle('open');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.getAttribute('data-theme') === 'light') {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        document.addEventListener('click', function (event) {
+            const dropdown = document.querySelector('.dropdown');
+            if (!dropdown.contains(event.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        // 页面加载时根据本地存储设置主题
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+        }
+
+        // 跳转到搜索页面
+        function navigateToSearch() {
+            window.location.href = "search";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品投稿</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .form-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .form-title {
+            text-align: center;
+            color: #1a73e8;
+            margin-bottom: 24px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #1a73e8;
+            outline: none;
+        }
+
+        .textarea-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .file-input-label {
+            display: block;
+            border: 2px dashed #A3D0C3;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #555;
+        }
+
+        .file-input-label:hover {
+            background-color: #f0f8f5;
+            border-color: #1a73e8;
+        }
+
+        .file-input-label svg {
+            fill: #1a73e8;
+            margin-bottom: 10px;
+        }
+
+        .file-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-name {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        .submit-btn {
+            background-color: #1a73e8;
+            color: white;
+            padding: 14px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 500;
+        }
+
+        .submit-btn:hover {
+            background-color: #1557b0;
+        }
+
+        .tip {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+        }
+
+        .tip-small {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-card">
+        <h1 class="form-title">作品投稿</h1>
+
+        <form method="POST" enctype="multipart/form-data" id="uploadForm">
+            <div class="form-group">
+                <label class="form-label" for="name">作品名称</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="jianjie">作品简介</label>
+                <textarea class="form-control textarea-control" id="jianjie" name="jianjie" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">上传文件</label>
+                <div class="file-input-wrapper">
+                    <label class="file-input-label" id="fileLabel">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
+                            <path d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3h-2zm-1-4l-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5 5-5z"/>
+                        </svg>
+                        <div>
+                            <p>点击选择文件（.html 或 .sb3）</p>
+                            <p class="file-name" id="file-name">未选择文件</p>
+                            <small class="tip-small">安卓用户：点击后选择“文件”或“文档”</small>
+                        </div>
+                    </label>
+                    <input type="file"
+                           class="file-input"
+                           id="file"
+                           name="file"
+                           accept=".html,.sb3,application/zip,text/html"
+                           required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="license">开源协议</label>
+                <select class="form-control" id="license" name="license" required>
+                    <option value="mit">MIT协议(允许任意拷贝分发，只需保留原作者署名)</option>
+                    <option value="不开源">不开源(未经允许不允许转载与下载)</option>
+                    <option value="Apache 2.0">Apache 2.0</option>
+                    <option value="CC BY-SA 4.0">CC BY-SA 4.0</option>
+                    <option value="MPL-2.0">MPL-2.0</option>
+                    <option value="GPL v3">GPL v3</option>
+                    <option value="AGPL v3">AGPL v3</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="sbox">编辑器</label>
+                <select class="form-control" id="sbox" name="sbox" required>
+                    <option value="sbox-scratch">sbox-scratch</option>
+                    <option value="turbowarp">turbowarp</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" class="submit-btn" value="立即投稿">
+            </div>
+
+            <p class="tip">
+                您的Scratch文件即使加密也无法阻止获取，每个社区都是如此。<br>
+                小盒子官方会在能力范围内处理抄袭和盗作品的行为。<br>
+                请遵守用户守则上传文件，严禁重复上传作品，违者封号！
+            </p>
+        </form>
+    </div>
+
+    <script>
+
+        const fileInput = document.getElementById('file');
+        const fileNameEl = document.getElementById('file-name');
+
+        // 显示选择的文件名
+        fileInput.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                fileNameEl.textContent = `已选: ${file.name}`;
+            } else {
+                fileNameEl.textContent = '未选择文件';
+            }
+        });
+
+        // 表单提交验证
+        document.getElementById('uploadForm').addEventListener('submit', function (e) {
+            const file = fileInput.files[0];
+            if (!file) {
+                e.preventDefault();
+                alert('请先选择一个文件！');
+                return;
+            }
+
+            // 可选：检查文件类型
+            const fileName = file.name.toLowerCase();
+            if (!fileName.endsWith('.html') && !fileName.endsWith('.sb3')) {
+                e.preventDefault();
+                alert('仅支持 .html 或 .sb3 文件！');
+                return;
+            }
+
+            // 提交按钮变灰
+            const btn = document.querySelector('.submit-btn');
+            btn.disabled = true;
+            btn.value = '上传中...';
+            // 部分国产手机浏览器（如小米、华为）对“文件选择”路径隐藏较深，需引导用户点击“文档”而非“相册”!!!!!!!!!fuck huanwei fuck shanxin fuck xiaomi
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,282 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鱼干网络推广</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', sans-serif;
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        
+        h2 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin: 2rem 0 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--secondary);
+        }
+        
+        .price-table {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .card p {
+            margin-bottom: 0.8rem;
+            color: var(--gray);
+        }
+        
+        .price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 1.5rem 0;
+        }
+        
+        .price del {
+            font-size: 1.2rem;
+            color: var(--gray);
+            opacity: 0.7;
+        }
+        
+        .features {
+            margin: 2rem 0;
+        }
+        
+        .features ul {
+            list-style: none;
+        }
+        
+        .features li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 1.8rem;
+        }
+        
+        .features li::before {
+            content: "✓";
+            color: var(--secondary);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+        
+        .button {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary);
+        }
+        
+        .button:hover {
+            background: white;
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .button.secondary {
+            background: var(--secondary);
+            border-color: var(--secondary);
+        }
+        
+        .button.secondary:hover {
+            background: white;
+            color: var(--secondary);
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        footer p {
+            margin: 0.5rem 0;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .price-table {
+                grid-template-columns: 1fr;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>鱼干网络推广</h1>
+        <p>一站式广告投放平台 · 让每一份流量都有价值</p>
+    </header>
+
+    <div class="container">
+        <section>
+            <h2>我们的服务</h2>
+            <div class="price-table">
+                <div class="card">
+                    <h3>超链接展示计费（火热）</h3>
+                    <p>可以展示不超过15个字的超链接广告</p>
+                    <p>请求限制：160 单IP/分钟</p>
+                    <p>特点：无论是否点击，只要广告被展示即可</p>
+                    <div class="price">
+                        <del>5元</del> 4.5元/千次展示
+                        <span style="display:block;font-size:0.9rem;color:var(--secondary)">限时优惠！！！</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>开发者收益说明</h2>
+            <p>我们收取广告主支付费用的20%作为平台服务费，其余80%归开发者所有。</p>
+            <div class="features">
+                <ul>
+                    <li>透明结算：每日数据更新，清晰可见</li>
+                    <li>自动分账：系统自动计算收益并记录</li>
+                    <li>提现便捷：累计满50元即可提交QQ工单申请提现，7天内处理</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>为什么选择我们？</h2>
+            <div class="features">
+                <ul>
+                    <li>轻量接入：只需插入一行代码即可开始赚钱</li>
+                    <li>无干扰广告：纯文字超链接，不影响用户体验</li>
+                    <li>真实流量保护：防刷机制保障双方利益</li>
+                    <li>可视化提示平台和异常分析，邮件提醒，让广告投放更透明</li>
+                    <li>不接受金融，医疗药品，保健品等推广，拒绝所有潜在推广风险</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>加入我们</h2>
+            <p>如果你拥有一个网站、博客或论坛，欢迎加入我们，开启流量变现之旅。</p>
+            <div class="button-group">
+                <a href="#" class="button" onclick="showkf()">立即注册成为开发者</a>
+                <a href="#" class="button secondary" onclick="showPopup()">立即注册成为广告主</a>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>我们已投放10,000+条广告</p>
+        <p>&copy; 2025 鱼干网络推广 | 联系邮箱：sbox520@163.com</p>
+    </footer>
+
+    <script>
+        function showPopup() {
+            alert("广告主注册需要将广告发送到邮箱sbox520@163.com审核后，您将收到相关信息，记得留下您的QQ方便我们联系您");
+        }
+        function showkf() {
+            alert("您可以将您的网站发送到邮箱sbox520@163.com审核后，您将收到相关信息，记得留下您的QQ方便我们联系您");
+        }
+    </script>
+</body>
+</html>

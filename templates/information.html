@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh"  data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提示</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- 在 head 中提前运行脚本，防止 FOUC -->
+    <script>
+        // 立即读取主题，避免闪烁
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark'; // 默认 dark
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        p {
+            font-size: 16px;
+            color: #555;
+        }
+        a {
+            display: block;
+            margin: 10px 0;
+            font-size: 16px;
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="menu-icon2">小盒子社区</div>
+        <div class="toolbox">
+            <div class="dropdown" onclick="toggleDropdown()">
+                 ☰
+                <div class="dropdown-content">
+                    <a href="/">首页</a>
+                    <a href="/search">作品搜索</a>
+                    <a href="/user/{{ session['username'] }}">个人中心</a>
+                    <a href="/tougaoscratch">投稿作品</a>
+                    <a href="/book/up">投稿博客</a>
+                    <a href="{{ url_for('logout') }}">登出</a>
+                    <a href="/users">用户更改</a>
+                </div>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()">&#9788;</button>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>{{ Information }}</h1>
+        <p>email:sbox520@163.com</p>
+    </div>
+    <script>
+        // 头像框交互效果
+        const avatar = document.querySelector('.avatar');
+        const frame = document.querySelector('.avatar-frame');
+        
+        avatar.addEventListener('mouseenter', () => {
+            frame.style.transform = 'scale(1.05)';
+            frame.style.transition = 'transform 0.3s ease';
+        });
+        
+        avatar.addEventListener('mouseleave', () => {
+            frame.style.transform = 'scale(1)';
+        });
+        function toggleDropdown() {
+            const dropdown = document.querySelector('.dropdown');
+            dropdown.classList.toggle('open');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.getAttribute('data-theme') === 'light') {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        document.addEventListener('click', function (event) {
+            const dropdown = document.querySelector('.dropdown');
+            if (!dropdown.contains(event.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        // 页面加载时根据本地存储设置主题
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+        }
+
+        // 跳转到搜索页面
+        function navigateToSearch() {
+            window.location.href = "search";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章编辑</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .input-group { margin-bottom: 15px; }
+        label { font-size: 1.2em; }
+        input, textarea { width: 100%; padding: 10px; font-size: 1em; }
+        button { padding: 10px 20px; font-size: 1.2em; cursor: pointer; }
+        #message { margin-top: 15px; color: green; font-size: 1.2em; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>编辑文章</h1>
+    <form id="article-form">
+        <div class="input-group">
+            <label for="username">用户名</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+
+        <div class="input-group">
+            <label for="article_name">文章标题</label>
+            <input type="text" id="article_name" name="article_name" required>
+        </div>
+
+        <div class="input-group">
+            <label for="content">文章内容</label>
+            <textarea id="content" name="content" rows="10" required></textarea>
+        </div>
+
+        <div class="input-group">
+            <label for="status">文章状态</label>
+            <select id="status" name="status">
+                <option value="连载">连载</option>
+                <option value="完结">完结</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="tags">文章标签</label>
+            <input type="text" id="tags" name="tags" placeholder="多个标签用逗号隔开">
+        </div>
+
+        <button type="submit">保存文章</button>
+    </form>
+
+    <div id="message"></div>
+
+    <h2>已有文章</h2>
+    <ul id="article-list"></ul>
+</div>
+
+<script>
+    // 获取表单和消息元素
+    const form = document.getElementById("article-form");
+    const message = document.getElementById("message");
+    const articleList = document.getElementById("article-list");
+
+    // 监听表单提交事件
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        // 获取表单数据
+        const formData = new FormData(form);
+        const username = formData.get("username");
+        const articleName = formData.get("article_name");
+        const content = formData.get("content");
+        const status = formData.get("status");
+        const tags = formData.get("tags");
+
+        const data = {
+            username: username,
+            article_name: articleName,
+            content: content,
+            status: status,
+            tags: tags
+        };
+
+        // 发送保存文章请求到后端
+        fetch("http://127.0.0.1:5000/save_article", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.message) {
+                message.textContent = result.message;
+                fetchArticles(username); // 保存成功后获取该用户的文章列表
+            }
+        })
+        .catch(error => {
+            message.textContent = "保存失败：" + error.message;
+        });
+    });
+
+    // 获取文章列表的函数
+    function fetchArticles(username) {
+        fetch(`http://127.0.0.1:5000/get_articles?username=${username}`)
+        .then(response => response.json())
+        .then(data => {
+            articleList.innerHTML = ""; // 清空文章列表
+            data.articles.forEach(article => {
+                const listItem = document.createElement("li");
+                listItem.textContent = `${article[1]} (${article[2]}) - 标签: ${article[3]}, 字数: ${article[4]}, 浏览量: ${article[5]}`;
+                articleList.appendChild(listItem);
+            });
+        })
+        .catch(error => {
+            message.textContent = "获取文章列表失败：" + error.message;
+        });
+    }
+</script>
+
+</body>
+</html>

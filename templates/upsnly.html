@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上传游戏</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        textarea {
+            resize: vertical;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Media query for mobile devices */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 10px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            label, input[type="text"], textarea {
+                font-size: 14px;
+            }
+            button {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>上传游戏</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <label for="name">标题:</label>
+            <input type="text" id="name" name="name" required><br><br>
+
+            <label for="author">作者:</label>
+            <input type="text" id="author" name="author" required><br><br>
+
+            <label for="authorlink">作者链接:</label>
+            <input type="text" id="authorlink" name="authorlink" required><br><br>
+
+            <label for="bilibili">bilibili:</label>
+            <input type="text" id="bilibili" name="bilibili"  value="#" required><br><br>
+
+            <label for="content">简介:</label>
+            <textarea id="content" name="content" required style="height: 600px;"></textarea><br>
+
+            <label for="windows-Download-link">windows下载链接:</label>
+            <input type="text" id="windows-Download-link" name="windows-Download-link" required><br><br>
+
+            <label for="Website-link">网页版链接:</label>
+            <input type="text" id="Website-link" name="Website-link" value="#" required><br><br>
+
+            <label for="Android-Download-link">安卓下载链接:</label>
+            <input type="text" id="Android-Download-link" name="Android-Download-link" value="#" required><br><br>
+
+            <label for="Mac-Download-link">Mac下载链接:</label>
+            <input type="text" id="Mac-Download-link" name="Mac-Download-link" value="#" required><br><br>
+
+            <label for="linux-Download-link">linux下载链接:</label>
+            <input type="text" id="linux-Download-link" name="linux-Download-link" value="#" required><br><br>
+
+            <button type="submit">上传</button>
+        </form>
+        <p>我们鼓励上传，每上传一个奖励1~5不等金币</p>
+    </div>
+</body>
+</html>

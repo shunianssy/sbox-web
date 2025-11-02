@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作家平台</title>
+</head>
+<body>
+    <div class="container">
+        <h2>作家平台</h2>
+
+        <!-- 表单，允许用户添加书籍 -->
+        <form action="{{ url_for('writerpt', id=id) }}" method="POST">
+            <label for="book_name">书名:</label>
+            <input type="text" id="book_name" name="book_name" required>
+
+            <button type="submit">添加书籍</button>
+        </form>
+
+        <h3>当前书籍列表</h3>
+        <!-- 显示书籍列表 -->
+        <ul>
+            {% for book in links %}
+                <li><a href="/writerjj/{{ book.id }}" target="_blank">{{ book.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

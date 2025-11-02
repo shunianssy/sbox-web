@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="Zn-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品搜索</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+
+    <!-- 在 head 中提前运行脚本，防止 FOUC -->
+    <script>
+        // 立即读取主题，避免闪烁
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark'; // 默认 dark
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+</head>
+<body>
+    <nav>
+        <div class="menu-icon2">小盒子社区</div>
+        {{ nav|safe }}
+    </nav>
+
+    <h1>作品搜索</h1>
+    <form id="search-form">
+        <input type="text" id="search-term" name="search_term" placeholder="输入搜索内容" required>
+        <input type="text" id="filter-term" name="filter_term" placeholder="过滤条件 (可选)">
+        <label for="selection">选择:</label>
+        <select name="selection" id="selection">
+            <option value="scratch">scratch</option>
+            <option value="Novel">小说</option>
+            <option value="book">book</option>
+            <option value="snly">snly</option>
+        </select>
+        <button type="submit">搜索</button>
+    </form>
+
+
+    <h2>搜索结果</h2>
+    <p id="search-time"></p>
+    <ul id="results-list"></ul>
+
+    <footer>
+            {{ footer|safe }}
+    </footer>
+
+    <script>
+        console.info('fuck Which person is suitable for the amazing front-end?');
+        function toggleDropdown() {
+            const dropdown = document.querySelector('.dropdown');
+            dropdown.classList.toggle('open');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.getAttribute('data-theme') === 'light') {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        document.addEventListener('click', function (event) {
+            const dropdown = document.querySelector('.dropdown');
+            if (!dropdown.contains(event.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        // 页面加载时根据本地存储设置主题
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+        }
+
+        // 跳转到搜索页面
+        function navigateToSearch() {
+            window.location.href = "search";
+        }
+
+        document.getElementById('search-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let searchTerm = document.getElementById('search-term').value;
+            let filterTerm = document.getElementById('filter-term').value;
+            let selection = document.getElementById('selection').value;
+
+            fetch('/api/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    search_term: searchTerm,
+                    filter_term: filterTerm,
+                    selection: selection
+                })
+            })
+           .then(response => response.json())
+           .then(data => {
+                document.getElementById('search-time').textContent = `搜索时间: ${data.elapsed_time}ms`;
+
+                const resultsList = document.getElementById('results-list');
+                resultsList.innerHTML = '';  // 清空之前的结果
+
+                if (data.results.length > 0) {
+                    data.results.forEach(row => {
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = `<a href="${selection}/${row.id}"><strong>作品:</strong> ${row.content}<br><strong>ID:</strong> ${row.id}</a>`;
+                        resultsList.appendChild(listItem);
+                    });
+                } else {
+                    resultsList.innerHTML = '<p>没有找到匹配的作品。</p>';
+                }
+            })
+           .catch(error => console.error('Error:', error));
+        });
+        
+    </script>
+</body>
+</html>

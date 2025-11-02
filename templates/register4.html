@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            font-size: 14px;
+            color: #555;
+            text-align: left;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .messages {
+            color: #ff0000;
+            margin-top: 10px;
+        }
+
+        .captcha-container {
+            margin: 20px 0;
+        }
+
+        .captcha-box {
+            width: 100%;
+            height: 50px;
+            position: relative;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+        .captcha-input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .email-verify {
+    	display: flex;
+    	gap: 10px; /* 原有间距 */
+  	  align-items: center; /* 新增：垂直居中对齐元素 */
+    	/* 可选：优化水平分布 */
+   	 justify-content: space-between; /* 使输入框和按钮两端对齐 */
+	}
+
+        /* 统一输入框和按钮的高度与内边距 */
+.email-verify input, 
+.email-verify button {
+    height: 40px; /* 固定高度 */
+    padding: 0 12px; /* 统一内边距 */
+    box-sizing: border-box; /* 确保内边距不影响尺寸 */
+}
+
+/* 调整按钮宽度（可选） */
+.email-verify button {
+    width: 120px; /* 固定按钮宽度，避免挤压输入框 */
+    flex-shrink: 0; /* 禁止按钮压缩 */
+}
+.container {
+    width: 350px; /* 适当增加容器宽度，避免元素挤压 */
+}
+
+/* 响应式适配（小屏幕下按钮换行） */
+@media (max-width: 400px) {
+    .email-verify {
+        flex-direction: column; /* 小屏幕下改为垂直布局 */
+    }
+    .email-verify button {
+        width: 100%; /* 按钮占满宽度 */
+        margin-top: 10px; /* 按钮与输入框的间距 */
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>注册</h1>
+        <form method="POST" id="registerForm">
+            <label for="email">Email:</label>
+            <div class="email-verify">
+                <input type="email" id="email" name="email" required>
+                <button type="button" id="sendCodeBtn">获取验证码</button>
+            </div>
+            
+            <label for="emailCode">邮箱验证码:</label>
+            <input type="text" id="emailCode" name="emailCode" required>
+
+            <!-- 添加数学验证码部分 -->
+            <div class="captcha-container">
+                <div id="captcha" class="captcha-box">
+                    <canvas id="captchaCanvas" width="200" height="50"></canvas>
+                </div><br>
+                <label for="captchaInput">请输入数学题答案:</label>
+                <input type="text" id="captchaInput" name="captcha" class="captcha-input" required>
+            </div>
+            
+            <button type="submit">注册</button>
+        </form>
+        <p>已有账户？<a href="{{ url_for('login') }}">登录</a></p>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="messages">
+                    <ul>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <script>
+        // 生成随机的数学题并显示
+        function generateCaptcha() {
+            const num1 = Math.floor(Math.random() * 10) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            const correctAnswer = num1 + num2;
+
+            // 将正确答案存储在表单中，但设置为不可见
+            document.getElementById('registerForm').dataset.correctAnswer = correctAnswer;
+
+            // 在验证码区域显示数学题
+            const canvas = document.getElementById('captchaCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 设置字体
+            ctx.font = "24px Arial";
+            ctx.fillStyle = "#333";
+            ctx.fillText(`${num1} + ${num2} = ?`, 50, 30);
+
+            // 添加干扰线条
+            for (let i = 0; i < 5; i++) {
+                const x1 = Math.random() * canvas.width;
+                const y1 = Math.random() * canvas.height;
+                const x2 = Math.random() * canvas.width;
+                const y2 = Math.random() * canvas.height;
+                ctx.strokeStyle = `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.7)`;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+            }
+        }
+
+        // 验证用户输入的答案是否正确
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            const userAnswer = parseInt(document.getElementById('captchaInput').value);
+            const correctAnswer = parseInt(this.dataset.correctAnswer);
+
+            if (userAnswer !== correctAnswer) {
+                event.preventDefault(); // 阻止表单提交
+                alert("验证码错误，请重新输入！");
+            }
+        });
+
+        // 发送邮箱验证码
+        document.getElementById('sendCodeBtn').addEventListener('click', function() {
+            const email = document.getElementById('email').value;
+            if (!email) {
+                alert('请输入邮箱地址');
+                return;
+            }
+            
+            // 发送请求到后端获取验证码
+            fetch(window.location.origin + '/验证码', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: email })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('验证码已发送到您的邮箱');
+                } else {
+                    alert('发送验证码失败: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('发送验证码时出错');
+            });
+        });
+
+        // 页面加载时生成验证码
+        window.onload = generateCaptcha;
+    </script>
+</body>
+</html>

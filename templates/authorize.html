@@ -1,0 +1,67 @@
+<!-- templates/authorize.html -->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>授权请求</title>
+  <style>
+    body {
+      font-family: "Microsoft YaHei", sans-serif;
+      padding: 40px;
+      background: #f8f9fa;
+      text-align: center;
+    }
+    .box {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h2 { color: #333; }
+    .app-name { font-size: 1.2em; color: #007bff; }
+    .warning {
+      margin: 20px 0;
+      padding: 15px;
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 6px;
+      color: #856404;
+      font-size: 0.9em;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover { background: #218838; }
+    .cancel {
+      background: #6c757d;
+      margin-left: 10px;
+    }
+    .cancel:hover { background: #5a6268; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>授权请求</h2>
+    <p>应用 <strong class="app-name">{{ app_name }}</strong> 想要获取你的信息</p>
+
+    <div class="warning">
+      请确认你信任此应用。授权后，它将能访问你的昵称和邮箱。
+    </div>
+
+    <form method="POST" action="/oauth/authorize/confirm">
+      <input type="hidden" name="client_id" value="{{ client_id }}">
+      <input type="hidden" name="redirect_uri" value="{{ redirect_uri }}">
+      <button type="submit" name="action" value="allow">同意授权</button>
+      <button type="submit" name="action" value="deny" class="cancel">拒绝</button>
+    </form>
+  </div>
+</body>
+</html>

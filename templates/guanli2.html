@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员表单</title>
+</head>
+<body>
+    <h1>管理员表单</h1>
+    <form method="POST">
+        <!-- 下拉选择 -->
+        <label for="selection">选择:</label>
+        <select name="selection" id="selection">
+            <option value="路障作品">路障作品</option>
+            <option value="解除路障作品">解除路障作品</option>
+            <option value="封号">封号</option>
+        </select>
+        <br><br>
+
+        <!-- 目标输入框 -->
+        <label for="target">目标id:</label>
+        <input type="text" id="target" name="target" required>
+        <br><br>
+
+        <!-- 理由输入框 -->
+        <label for="reason">理由:</label>
+        <input type="text" id="reason" name="reason" required>
+        <br><br>
+
+        <!-- 提交按钮 -->
+        <button type="submit">提交</button>
+    </form>
+</body>
+</html>

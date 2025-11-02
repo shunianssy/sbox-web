@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>春风十里不如你</title>
+  <!-- 引入字体 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC :wght@400;700&family=Kaisei+Decol&display=swap" rel="stylesheet">
+  <style>
+    /* 基础设置 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: linear-gradient(135deg, #fdf6f0, #fceaea);
+      color: #333;
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 封面与简介区域 */
+    .book-header {
+      display: flex;
+      gap: 2rem;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .book-cover {
+      width: 180px;
+      height: auto;
+      aspect-ratio: 2 / 3;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .book-title {
+      font-size: 2rem;
+      color: #ff6ec7;
+      font-family: 'Kaisei Decol', cursive;
+      margin-bottom: 0.5rem;
+    }
+
+    .book-author {
+      font-size: 1rem;
+      color: #999;
+      margin-bottom: 1rem;
+    }
+
+    .book-desc {
+      font-size: 1rem;
+      color: #444;
+      margin-top: 1rem;
+    }
+
+    .book-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .meta-item {
+      background: #fff0f8;
+      padding: 0.8rem;
+      border-radius: 12px;
+      text-align: center;
+      border: 1px solid #ffe6f2;
+      transition: transform 0.2s ease;
+    }
+
+    .meta-item:hover {
+      transform: translateY(-3px);
+    }
+
+    .meta-label {
+      color: #ff6ec7;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .meta-value {
+      margin-top: 0.3rem;
+      font-size: 0.95rem;
+    }
+
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin: 2rem 0;
+    }
+
+    .action-btn {
+      flex: 1 1 auto;
+      max-width: 200px;
+      padding: 0.7rem 1.2rem;
+      border-radius: 25px;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      background-color: #ff6ec7;
+      color: white;
+      text-decoration: none;
+      text-align: center;
+      transition: background-color 0.3s ease;
+    }
+
+    .action-btn:hover {
+      background-color: #e05ebe;
+    }
+
+    /* 阅读进度条 */
+    .reading-progress {
+      background: #fff0f8;
+      border-radius: 20px;
+      overflow: hidden;
+      height: 12px;
+      margin: 1rem 0;
+    }
+
+    .reading-progress-bar {
+      background-color: #ff6ec7;
+      height: 100%;
+      width: 45%; /* 模拟阅读进度 */
+      border-radius: 20px;
+      transition: width 0.5s ease;
+    }
+
+    .progress-text {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #888;
+      margin-bottom: 1.5rem;
+    }
+
+    /* 推荐阅读区域 */
+    .recommend-section {
+      margin-top: 2rem;
+    }
+
+    .recommend-title {
+      font-size: 1.3rem;
+      color: #ff6ec7;
+      margin-bottom: 1rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .recommend-title::after {
+      content: '';
+      display: block;
+      margin: 0.5rem auto 1rem;
+      width: 60px;
+      height: 3px;
+      background: #ff6ec7;
+      border-radius: 2px;
+    }
+
+    .recommend-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .recommend-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+      text-align: center;
+    }
+
+    .recommend-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .recommend-cover {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 2 / 3;
+      object-fit: cover;
+    }
+
+    .recommend-title-small {
+      font-size: 1rem;
+      color: #333;
+      margin: 0.5rem 0;
+    }
+
+    .recommend-author {
+      font-size: 0.85rem;
+      color: #999;
+    }
+
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+      .book-header {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .book-cover {
+        width: 150px;
+      }
+
+      .book-desc {
+        text-align: center;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- 头部区域：封面 + 标题 + 作者 -->
+  <div class="book-header">
+    <img src="https://via.placeholder.com/180x270.png?text= 封面图" alt="小说封面" class="book-cover" />
+
+    <div>
+      <h2 class="book-title">春风十里不如你</h2>
+      <p class="book-author">作者：林小满</p>
+      <p class="book-desc">
+        在最美好的年纪里，我们相遇了。春风十里，不及你一笑。
+        这是一部关于青春、成长与爱情的故事，讲述了一段青涩又坚定的情感旅程。
+      </p>
+    </div>
+  </div>
+
+  <!-- 元数据区域 -->
+  <div class="book-meta">
+    <div class="meta-item">
+      <div class="meta-label">排名</div>
+      <div class="meta-value">第 1 名</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">热度</div>
+      <div class="meta-value">10万+</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">总章数</div>
+      <div class="meta-value">100 章</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">观看量</div>
+      <div class="meta-value">50万+</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">总字数</div>
+      <div class="meta-value">30 万字</div>
+    </div>
+  </div>
+
+  <!-- 阅读进度条 -->
+  <div class="reading-progress">
+    <div class="reading-progress-bar"></div>
+  </div>
+  <p class="progress-text">您已阅读 45%</p>
+
+  <!-- 操作按钮 -->
+  <div class="action-buttons">
+    <a href="/reading={{ id }}=1" class="action-btn">开始阅读</a>
+    <a href="/detailContents={{ id }}" class="action-btn">加入书签</a>
+    <a href="/detailContents={{ id }}" class="action-btn">查看目录</a>
+  </div>
+
+  <!-- 推荐阅读 -->
+  <div class="recommend-section">
+    <h3 class="recommend-title">你可能也喜欢</h3>
+    <div class="recommend-grid">
+      <div class="recommend-card">
+        <img src="https://via.placeholder.com/140x210.png?text= 推荐1" alt="推荐封面" class="recommend-cover" />
+        <p class="recommend-title-small">夏日微光</p>
+        <p class="recommend-author">作者：小夏</p>
+      </div>
+      <div class="recommend-card">
+        <img src="https://via.placeholder.com/140x210.png?text= 推荐2" alt="推荐封面" class="recommend-cover" />
+        <p class="recommend-title-small">星辰与海</p>
+        <p class="recommend-author">作者：阿蓝</p>
+      </div>
+      <div class="recommend-card">
+        <img src="https://via.placeholder.com/140x210.png?text= 推荐3" alt="推荐封面" class="recommend-cover" />
+        <p class="recommend-title-small">花开半夏</p>
+        <p class="recommend-author">作者：南栀</p>
+      </div>
+      <div class="recommend-card">
+        <img src="https://via.placeholder.com/140x210.png?text= 推荐4" alt="推荐封面" class="recommend-cover" />
+        <p class="recommend-title-small">旧时光</p>
+        <p class="recommend-author">作者：木子</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

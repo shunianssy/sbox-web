@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小盒子社区 - 新一代 Scratch 社区</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #ffffff;
+            --text-secondary: #bbbbbb;
+            --border-color: #333;
+            --card-bg: #1e1e1e;
+            --accent-color: #4a90e2;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f8f9fa;
+            --text-color: #212529;
+            --text-secondary: #6c757d;
+            --border-color: #dee2e6;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .menu-icon2 {
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        .quick-nav {
+            padding: 1rem 2rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .quick-nav a {
+            color: var(--accent-color);
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+
+        .quick-nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem 2rem;
+        }
+
+        h3 {
+            margin: 2rem 0 1.2rem;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        /* AI 模型卡片容器 */
+        .ai-models {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            padding: 1rem 0;
+            justify-content: center;
+        }
+
+        .model-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.2rem;
+            width: 280px;
+            height: 280px; /* 锁定统一高度 */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            box-sizing: border-box;
+            overflow: hidden; /* 防止内容溢出，也可改为 auto */
+        }
+
+        .model-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.8rem;
+            color: var(--text-color);
+            flex-shrink: 0; /* 不被压缩 */
+        }
+
+        .model-param {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 0.3rem 0;
+            flex-shrink: 0;
+        }
+
+        footer {
+            margin-top: 2.5rem;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+    </style>
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+</head>
+<body>
+    <nav>
+        <div class="menu-icon2">小盒子社区</div>
+        {{ nav|safe }}
+    </nav>
+
+    <p>apikey:{{ apikey }}</p>
+    <p>money:{{ money }}</p>
+    <a href="/ai/key">重置秘钥</a>
+    <main>
+            <h3>旗舰模型</h3>
+            <section class="ai-models">
+                <div class="model-card">
+                    <div class="model-title">DeepSeek-V3.2-Exp</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 128K tokens</div>
+                    <div class="model-param">最大输出: 64K tokens</div>
+                    <div class="model-param">价格：输入：2.0元/百万 Token and 输出：3.2元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">GLM-4.6</div>
+                    <div class="model-param">License: 未公开</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 128K tokens</div>
+                    <div class="model-param">多语言支持: ✅</div>
+                    <div class="model-param">价格：输入：5.25元/百万 Token and 输出：21.0元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">gpt-oss-120b</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：1.0元/百万 Token and 输出：4.0元/百万 Token</div>
+                </div>
+            </section>
+            
+            <h3>DeepSeek 系列</h3>
+            <section class="ai-models">
+                <div class="model-card">
+                    <div class="model-title">DeepSeek-V3.2-Exp</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 128K tokens</div>
+                    <div class="model-param">最大输出: 64K tokens</div>
+                    <div class="model-param">价格：输入：2.0元/百万 Token and 输出：3.2元/百万 Token</div>
+                </div>
+                <div class="model-card">
+                    <div class="model-title">DeepSeek-V3</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 128K tokens</div>
+                    <div class="model-param">最大输出: 64K tokens</div>
+                    <div class="model-param">价格：输入：4.0元/百万 Token and 输出：16.0元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">DeepSeek-V3_1-Terminus</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 128K tokens</div>
+                    <div class="model-param">最大输出: 64K tokens</div>
+                    <div class="model-param">价格：输入：4.0元/百万 Token and 输出：24.0元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">DeepSeek-R1</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 128K tokens</div>
+                    <div class="model-param">最大输出: 32K tokens</div>
+                    <div class="model-param">价格：输入：5.0元/百万 Token and 输出：17.0元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">DeepSeek-R1-Distill-Qwen-32B</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：1.5元/百万 Token and 输出：1.5元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">deepseek-coder-33B-instruct</div>
+                    <div class="model-param">用途: 代码生成</div>
+                    <div class="model-param">上下文长度: 16K tokens</div>
+                    <div class="model-param">价格：0.05元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">DeepSeek-R1-Distill-Qwen-14B</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：0.01元/百万 Token and 输出：0.01元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">DeepSeek-R1-Distill-Qwen-7B</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：0.01元/百万 Token and 输出：0.01元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">DeepSeek-R1-Distill-Qwen-1.5B</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：0.01元/百万 Token and 输出：0.01元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">DeepSeek-Prover-V2-7B</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：0.01元/百万 Token and 输出：0.01元/百万 Token</div>
+                </div>
+            </section>
+            
+            <h3>Qwen 系列</h3>
+            <section class="ai-models">
+                <!-- 主模型 -->
+                <div class="model-card">
+                    <div class="model-title">Qwen3-235B-A22B-Instruct-2507</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">多语言支持: ✅</div>
+                    <div class="model-param">价格：输入：4.0元/百万 Token and 输出：4.1元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen3-8B</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：0.0元/百万 Token and 输出：0.001元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen3-32B</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：1.0元/百万 Token and 输出：5.0元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen3-Next-80B-A3B-Thinking</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：1.0元/百万 Token and 输出：10.1元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen3-Next-80B-A3B-Instruct</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：1.0元/百万 Token and 输出：5.0元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen3-235B-A22B</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：2.5元/百万 Token and 输出：10.1元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen3-14B</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：6.0元/百万 Token and 输出：6.0元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen3-30B-A3B</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：0.7元/百万 Token and 输出：3.0元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">QwQ-32B</div>
+                    <div class="model-param">用途: 数学推理</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：1.0元/百万 Token and 输出：5.0元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen2.5-32B-Instruct</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：1.26元/百万 Token and 输出：2.0元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen2.5-14B-Instruct</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：0.7元/百万 Token and 输出：0.8元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen2-72B-Instruct</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：2.0元/百万 Token and 输出：3.0元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen2-7B-Instruct</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：0.1元/百万 Token and 输出：0.1元/百万 Token</div>
+                </div>
+            
+                <!-- 编程模型 -->
+                <div class="model-card">
+                    <div class="model-title">qwen3-coder-480b-a35b-instruct</div>
+                    <div class="model-param">用途: 代码生成</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：4.0元/百万 Token and 输出：17.0元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen2.5-Coder-32B-Instruct</div>
+                    <div class="model-param">用途: 代码生成</div>
+                    <div class="model-param">上下文长度: 16K tokens</div>
+                    <div class="model-param">价格：0.03元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen2.5-Coder-14B-Instruct</div>
+                    <div class="model-param">用途: 代码生成</div>
+                    <div class="model-param">上下文长度: 16K tokens</div>
+                    <div class="model-param">价格：0.015元/百万 Token</div>
+                </div>
+            
+                <!-- 视觉模型 -->
+                <div class="model-card">
+                    <div class="model-title">Qwen2.5-VL-32B-Instruct</div>
+                    <div class="model-param">多模态: ✅ 图文理解</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：0.03元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen2-VL-72B</div>
+                    <div class="model-param">多模态: ✅ 图文理解</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：0.05元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen3-VL-30B-A3B-Instruct</div>
+                    <div class="model-param">多模态: ✅ 图文理解</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：0.7元/百万 Token and 输出：3.0元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen3-VL-8B-Instruct</div>
+                    <div class="model-param">多模态: ✅ 图文理解</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：0.35元/百万 Token and 输出：1.5元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen3-VL-4B-Instruct</div>
+                    <div class="model-param">多模态: ✅ 图文理解</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：0.2元/百万 Token and 输出：0.7元/百万 Token</div>
+                </div>
+            
+                <!-- 语音模型 -->
+                <div class="model-card">
+                    <div class="model-title">Qwen2-Audio-7B-Instruct</div>
+                    <div class="model-param">多模态: ✅ 语音理解</div>
+                    <div class="model-param">价格：0.03元/百万 Token</div>
+                </div>
+            
+                <!-- 图像生成 -->
+                <div class="model-card">
+                    <div class="model-title">Qwen-Image</div>
+                    <div class="model-param">用途: 图像生成</div>
+                    <div class="model-param">价格：0.06元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen-Image-Edit</div>
+                    <div class="model-param">用途: 图像编辑</div>
+                    <div class="model-param">价格：0.06元/百万 Token</div>
+                </div>
+            
+                <!-- 视频生成 -->
+                <div class="model-card">
+                    <div class="model-title">Wan2_2-I2V-A14B</div>
+                    <div class="model-param">用途: 文生视频</div>
+                    <div class="model-param">价格：1.8元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Wan2.1-I2V-14B-480P</div>
+                    <div class="model-param">用途: 文生视频</div>
+                    <div class="model-param">分辨率: 480P</div>
+                    <div class="model-param">价格：1.8元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Wan2.1-I2V-14B-720P</div>
+                    <div class="model-param">用途: 文生视频</div>
+                    <div class="model-param">分辨率: 720P</div>
+                    <div class="model-param">价格：1.8元/百万 Token</div>
+                </div>
+            
+                <!-- Embedding / Reranker -->
+                <div class="model-card">
+                    <div class="model-title">Qwen3-Embedding-8B</div>
+                    <div class="model-param">用途: 向量嵌入</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen3-Embedding-4B</div>
+                    <div class="model-param">用途: 向量嵌入</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen3-Embedding-0.6B</div>
+                    <div class="model-param">用途: 向量嵌入</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen3-Reranker-8B</div>
+                    <div class="model-param">用途: 重排序</div>
+                    <div class="model-param">价格：输入：0.3元/百万 Token and 输出：0.3元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen3-Reranker-4B</div>
+                    <div class="model-param">用途: 重排序</div>
+                    <div class="model-param">价格：输入：0.15元/百万 Token and 输出：0.15元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen3-Reranker-0.6B</div>
+                    <div class="model-param">用途: 重排序</div>
+                    <div class="model-param">价格：输入：0.1元/百万 Token and 输出：0.1元/百万 Token</div>
+                </div>
+            </section>
+            
+            <h3>GPT-oss 系列</h3>
+            <section class="ai-models">
+                <div class="model-card">
+                    <div class="model-title">gpt-oss-120b</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：1.0元/百万 Token and 输出：4.0元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">gpt-oss-20b</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：0.4元/百万 Token and 输出：1.7元/百万 Token</div>
+                </div>
+            </section>
+            
+            <h3>GLM 系列</h3>
+            <section class="ai-models">
+                <div class="model-card">
+                    <div class="model-title">GLM-4_5</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 128K tokens</div>
+                    <div class="model-param">价格：输入：3.5元/百万 Token and 输出：16.0元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">GLM-4_5-Air</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 128K tokens</div>
+                    <div class="model-param">价格：输入：1.0元/百万 Token and 输出：7.0元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">GLM-4-32B</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：2.0元/百万 Token and 输出：2.0元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">GLM-4-9B-0414</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">glm-4-9b-chat</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">CogView4_6B</div>
+                    <div class="model-param">用途: 图像生成</div>
+                    <div class="model-param">价格：0.02元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">codegeex4-all-9b</div>
+                    <div class="model-param">用途: 代码生成</div>
+                    <div class="model-param">上下文长度: 16K tokens</div>
+                    <div class="model-param">价格：0.001元/次</div>
+                </div>
+            </section>
+            
+            <h3>Kimi 系列</h3>
+            <section class="ai-models">
+                <div class="model-card">
+                    <div class="model-title">kimi-k2-instruct</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 200K tokens</div>
+                    <div class="model-param">价格：输入：4.0元/百万 Token and 输出：15.0元/百万 Token</div>
+                </div>
+            </section>
+            
+            <h3>InternLM 系列</h3>
+            <section class="ai-models">
+                <div class="model-card">
+                    <div class="model-title">internlm3-8b-instruct</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：0.001元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">InternVL3-78B</div>
+                    <div class="model-param">多模态: ✅ 图文理解</div>
+                    <div class="model-param">价格：0.06元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">InternVL3-38B</div>
+                    <div class="model-param">多模态: ✅ 图文理解</div>
+                    <div class="model-param">价格：0.03元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">InternVL2.5-78B</div>
+                    <div class="model-param">多模态: ✅ 图文理解</div>
+                    <div class="model-param">价格：0.04元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">InternVL2-8B</div>
+                    <div class="model-param">多模态: ✅ 图文理解</div>
+                    <div class="model-param">价格：0.02元/百万 Token</div>
+                </div>
+            </section>
+            
+            <h3>Hunyuan / ERNIE 系列</h3>
+            <section class="ai-models">
+                <div class="model-card">
+                    <div class="model-title">ERNIE-4.5-Turbo</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：0.8元/百万 Token and 输出：3.6元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">ERNIE-X1-Turbo</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：1.0元/百万 Token and 输出：4.1元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">ERNIE-4.5-Turbo-VL</div>
+                    <div class="model-param">多模态: ✅ 图文理解</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：输入：3.0元/百万 Token and 输出：10.0元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Hunyuan-MT-Chimera-7B</div>
+                    <div class="model-param">用途: 机器翻译</div>
+                    <div class="model-param">上下文长度: 8K tokens</div>
+                    <div class="model-param">价格：输入：0.3元/百万 Token and 输出：0.4元/百万 Token</div>
+                </div>
+            </section>
+            
+            <h3>3D / 视频 / 音频 模型</h3>
+            <section class="ai-models">
+                <div class="model-card">
+                    <div class="model-title">Hunyuan3D-2</div>
+                    <div class="model-param">用途: 3D 生成</div>
+                    <div class="model-param">价格：输入：0.02元/百万 Token and 输出：0.08元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Step1X-3D</div>
+                    <div class="model-param">用途: 3D 生成</div>
+                    <div class="model-param">价格：0.07元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Hi3DGen</div>
+                    <div class="model-param">用途: 3D 生成</div>
+                    <div class="model-param">价格：0.06元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">stepvideo-t2v</div>
+                    <div class="model-param">用途: 文生视频</div>
+                    <div class="model-param">价格：1.2元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Step-Audio-TTS-3B</div>
+                    <div class="model-param">用途: 语音合成</div>
+                    <div class="model-param">价格：0.03元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">AudioFly</div>
+                    <div class="model-param">用途: 音频处理</div>
+                    <div class="model-param">价格：0.03元/次</div>
+                </div>
+            </section>
+            
+            <h3>OCR / 行业模型</h3>
+            <section class="ai-models">
+                <div class="model-card">
+                    <div class="model-title">GOT-OCR2_0</div>
+                    <div class="model-param">用途: OCR 识别</div>
+                    <div class="model-param">价格：0.02元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Lingshu-32B</div>
+                    <div class="model-param">用途: 行业大模型</div>
+                    <div class="model-param">价格：输入：2.0元/百万 Token and 输出：9.0元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Seed-X-PPO-7B</div>
+                    <div class="model-param">用途: 强化学习</div>
+                    <div class="model-param">价格：输入：0.3元/百万 Token and 输出：0.5元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Duix.Heygem</div>
+                    <div class="model-param">用途: 行业模型</div>
+                    <div class="model-param">价格：0.6元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">medgemma-4b-it</div>
+                    <div class="model-param">用途: 医疗领域</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">HealthGPT-L14</div>
+                    <div class="model-param">用途: 医疗领域</div>
+                    <div class="model-param">价格：0.02元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Baichuan-M2-32B</div>
+                    <div class="model-param">用途: 行业大模型</div>
+                    <div class="model-param">价格：输入：2.0元/百万 Token and 输出：9.0元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Fin-R1</div>
+                    <div class="model-param">用途: 金融领域</div>
+                    <div class="model-param">价格：输入：2.0元/百万 Token and 输出：9.0元/百万 Token</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">DianJin-R1-32B</div>
+                    <div class="model-param">用途: 行业大模型</div>
+                    <div class="model-param">价格：输入：2.0元/百万 Token and 输出：9.0元/百万 Token</div>
+                </div>
+            </section>
+            
+            <h3>Embedding / Reranker / ASR（低价模型）</h3>
+            <section class="ai-models">
+                <div class="model-card">
+                    <div class="model-title">Youtu-Embedding</div>
+                    <div class="model-param">用途: 向量嵌入</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">jina-clip-v2</div>
+                    <div class="model-param">用途: 多模态嵌入</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">BAAI/bge-m3</div>
+                    <div class="model-param">用途: 向量嵌入</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">BAAI/bge-reranker-v2-m3</div>
+                    <div class="model-param">用途: 重排序</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">netease-youdao/bce-reranker-base_v1</div>
+                    <div class="model-param">用途: 重排序</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">netease-youdao/bce-embedding-base_v1</div>
+                    <div class="model-param">用途: 向量嵌入</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">BAAI/bge-large-zh-v1.5</div>
+                    <div class="model-param">用途: 中文嵌入</div>
+                    <div class="model-param">价格：0.0002元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">BAAI/bge-large-en-v1.5</div>
+                    <div class="model-param">用途: 英文嵌入</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">TeleAI/TeleSpeechASR</div>
+                    <div class="model-param">用途: 语音识别</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">FunAudioLLM/SenseVoiceSmall</div>
+                    <div class="model-param">用途: 语音识别</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">THUDM/GLM-4.1V-9B-Thinking</div>
+                    <div class="model-param">用途: 多模态推理</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">THUDM/GLM-Z1-9B-0414</div>
+                    <div class="model-param">用途: 基础语言模型</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">deepseek-ai/DeepSeek-R1-0528-Qwen3-8B</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">deepseek-ai/DeepSeek-R1-Distill-Qwen-7B</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen/Qwen2.5-7B-Instruct</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Qwen/Qwen2.5-Coder-7B-Instruct</div>
+                    <div class="model-param">用途: 代码生成</div>
+                    <div class="model-param">上下文长度: 16K tokens</div>
+                    <div class="model-param">价格：0.0002元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">internlm/internlm2_5-7b-chat</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">THUDM/glm-4-9b-chat</div>
+                    <div class="model-param">Function Calling: ✅ 支持</div>
+                    <div class="model-param">上下文长度: 32K tokens</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">Kwai-Kolors/Kolors</div>
+                    <div class="model-param">用途: 图像生成</div>
+                    <div class="model-param">价格：0.0001元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">tencent/Hunyuan-MT-7B</div>
+                    <div class="model-param">用途: 机器翻译</div>
+                    <div class="model-param">价格：0.0002元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">flux-1-schnell</div>
+                    <div class="model-param">用途: 图像生成</div>
+                    <div class="model-param">价格：0.02元/次</div>
+                </div>
+            
+                <div class="model-card">
+                    <div class="model-title">FLUX.1-Kontext-dev</div>
+                    <div class="model-param">用途: 图像生成</div>
+                    <div class="model-param">价格：0.02元/次</div>
+                </div>
+            </section>
+            
+            <h3>审核风控模型</h3>
+            <section class="ai-models">
+                <div class="model-card">
+                    <div class="model-title">Security-semantic-filtering</div>
+                    <div class="model-param">用途: 内容安全过滤</div>
+                    <div class="model-param">价格：0.0001元/每次调用</div>
+                </div>
+                <div class="model-card">
+                    <div class="model-title">moark-text-moderation</div>
+                    <div class="model-param">用途: 内容安全过滤</div>
+                    <div class="model-param">支持语言: 中文为主</div>
+                    <div class="model-param">价格：0.0003元/每次调用</div>
+                </div>
+                <div class="model-card">
+                    <div class="model-title">Qwen3Guard-Gen-0.6B</div>
+                    <div class="model-param">用途: 内容安全过滤</div>
+                    <div class="model-param">支持语言: 中文为主</div>
+                    <div class="model-param">价格：0.0001元/每次调用</div>
+                </div>
+                <div class="model-card">
+                    <div class="model-title">Qwen3Guard-Gen-4B</div>
+                    <div class="model-param">用途: 内容安全过滤</div>
+                    <div class="model-param">价格：0.0002元/每次调用</div>
+                </div>
+                <div class="model-card">
+                    <div class="model-title">Qwen3Guard-Gen-8B</div>
+                    <div class="model-param">用途: 内容安全过滤</div>
+                    <div class="model-param">价格：0.0004元/每次调用</div>
+                </div>
+                <div class="model-card">
+                    <div class="model-title">nsfw-classifier</div>
+                    <div class="model-param">用途: 图片安全过滤</div>
+                    <div class="model-param">支持图片: 风景，动漫为主</div>
+                    <div class="model-param">价格：0.0001元/每次调用</div>
+                </div>
+                <div class="model-card">
+                    <div class="model-title">nonescape-v0</div>
+                    <div class="model-param">用途: 图片AI识别</div>
+                    <div class="model-param">价格：0.0001元/每次调用</div>
+                </div>
+            </section>
+    </main>
+    <p>免责提示：我们没办法确认AI输出是否正确，AI所有输出均与小盒子无关，可能因为疏漏导致描述与实际不一致，如有疑惑请发邮件到sbox520@163.com询问</p>
+    <p>充值方法：找客服QQ:2917014670充值，服务时间：每周周五7：00-7：20处理</p>
+    <footer>
+        {{ footer|safe }}
+    </footer>
+
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.querySelector('.dropdown');
+            dropdown.classList.toggle('open');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.getAttribute('data-theme') === 'light') {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        document.addEventListener('click', function (event) {
+            const dropdown = document.querySelector('.dropdown');
+            if (dropdown && !dropdown.contains(event.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+        }
+
+        function navigateToSearch() {
+            window.location.href = "search";
+        }
+
+        console.info('加载成功，小盒子版本号：1.7.6');
+        console.info('未修改前端');
+    </script>
+</body>
+</html>

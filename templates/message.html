@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="Zn-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>信息提醒 测试版</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- 在 head 中提前运行脚本，防止 FOUC -->
+    <script>
+        // 立即读取主题，避免闪烁
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark'; // 默认 dark
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    
+</head>
+<body>
+    <nav>
+        <div class="menu-icon2">小盒子社区-信息提醒 测试版</div>
+        {{ nav|safe }}
+            </div>
+    </nav>
+
+    <div class="form-card">
+            <h3>小盒子社区-信息提醒</h3>
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message|safe }}</li>
+                {% endfor %}
+            </ul>
+            <p>侮辱信息不要怕，举报滥用：sbox520@163.com，或者前往QQ交流群：1037989684提交举报申请，如果觉得不公正，可以发送到sbox@520014.xyz，记得附上完整证据链</p>
+    </div>
+    <footer>
+            {{ footer|safe }}
+    </footer>
+
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.querySelector('.dropdown');
+            dropdown.classList.toggle('open');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.getAttribute('data-theme') === 'light') {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        document.addEventListener('click', function (event) {
+            const dropdown = document.querySelector('.dropdown');
+            if (!dropdown.contains(event.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        // 页面加载时根据本地存储设置主题
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+        }
+
+        // 跳转到搜索页面
+        function navigateToSearch() {
+            window.location.href = "search";
+        }
+
+        // 文件选择交互
+        document.querySelector('.file-input').addEventListener('click', () => {
+            document.getElementById('file').click();
+        });
+    </script>
+</body>
+</html>

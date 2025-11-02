@@ -1,0 +1,108 @@
+<html lang="Zn-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户更改</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+
+    <!-- 在 head 中提前运行脚本，防止 FOUC -->
+    <script>
+        // 立即读取主题，避免闪烁
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark'; // 默认 dark
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>    
+    <style>
+        .dropdown-content {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+        .dropdown.open .dropdown-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        textarea {
+            transition: all 0.3s ease;
+        }
+        textarea:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+        .theme-toggle {
+            transition: transform 0.3s ease;
+        }
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="menu-icon2">小盒子社区</div>
+        {{ nav|safe }}
+    </nav>
+
+    <div class="container">
+        <h1>用户更改</h1>
+        <div class="form-group">
+            <p>安全：<a href="/enable-totp">添加TOTP</a></p>
+            <form method="POST" enctype="multipart/form-data" >
+                <label for="geixing">个性：</label>
+                <input type="text" id="geixing" name="geixing" value="{{ gexing1 }}" required><br>
+                <label for="jianjie">简介：</label>
+                <textarea style="width: 801px; height: 459px; margin: 0px;" name="jianjie" required>{{ jianjie1 }}</textarea><br>
+                <label for="shoucang">收藏展示：</label>
+                <textarea style="height: 47px; margin: 0px; width: 801px;" name="shoucang" required>{{ shoucang1 }}</textarea><br>
+                <label for="version">社区版本：</label>
+                <textarea style="height: 47px; margin: 0px; width: 801px;" name="version" required>{{ version }}</textarea><br>
+                <label for="cover">上传头像：</label>
+                <input type="file" name="cover" accept=".png, .jpg"><br>
+                <input type="submit" value="提交">
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        {{ footer|safe }}
+    </footer>
+
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.querySelector('.dropdown');
+            dropdown.classList.toggle('open');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.getAttribute('data-theme') === 'light') {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        document.addEventListener('click', function (event) {
+            const dropdown = document.querySelector('.dropdown');
+            if (!dropdown.contains(event.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        // 页面加载时根据本地存储设置主题
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+        }
+
+        // 跳转到搜索页面
+        function navigateToSearch() {
+            window.location.href = "search";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线执行Python代码</title>
+    <script type="text/javascript" src="brython.min.js"></script>
+</head>
+<body onload="brython()">
+    <h1>在线执行Python代码</h1>
+
+    <textarea id="python-code" rows="10" cols="50">
+# 在这里输入你的Python代码
+print("Hello, World!")
+    </textarea><br><br>
+    <button onclick="runPython()">运行代码</button>
+
+    <h3>输出:</h3>
+    <pre id="output"></pre>
+
+    <script>
+        function runPython() {
+            var code = document.getElementById('python-code').value;
+            try {
+                var result = __BRYTHON__.run_script(code);
+                document.getElementById('output').textContent = result;
+            } catch (e) {
+                document.getElementById('output').textContent = "错误: " + e;
+            }
+        }
+    </script>
+</body>
+</html>
