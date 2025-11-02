@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>studyhelp</title>
+
+    <!-- 在 head 中提前运行脚本，防止 FOUC -->
+    <script>
+        // 立即读取主题，避免闪烁
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark'; // 默认 dark
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+
+    <style>
+        :root {
+            --primary-bg-color: #24282c; /* 深色背景 */
+            --secondary-bg-color: #121314; /* 次级背景（导航/卡片） */
+            --text-color: #e2e8f0; /* 主文本（浅灰） */
+            --link-color: #3b82f6; /* 链接/强调色（亮蓝） */
+            --card-bg-color: #1c1d1f; /* 卡片背景 */
+            --card-shadow: 0 0 0 rgba(59, 130, 246, 0); /* 移除卡片外部阴影 */
+            --border-color: #334155; /* 边框色 */
+            --font-size: 16px;
+            --transition-time: 0.3s;
+        }
+
+        [data-theme="light"] {
+            --primary-bg-color: #f8fafc;
+            --secondary-bg-color: #ffffff;
+            --text-color: #1e293b;
+            --link-color: #2563eb;
+            --card-bg-color: #ffffff;
+            --card-shadow: 0 0 0 rgba(37, 99, 235, 0);
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--primary-bg-color);
+            color: var(--text-color);
+            transition: background-color var(--transition-time) ease, color var(--transition-time) ease;
+            font-size: var(--font-size);
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--link-color);
+            transition: color var(--transition-time) ease;
+        }
+
+        a:hover {
+            color: #60a5fa;
+        }
+
+        nav {
+            background-color: var(--secondary-bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            /* box-shadow 已移除 */
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            box-sizing: border-box;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .menu-icon2 {
+            font-size: 24px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .dropdown {
+            position: relative;
+            background-color: transparent;
+            color: var(--text-color);
+            padding: 5px;
+            cursor: pointer;
+            transition: background-color var(--transition-time) ease;
+            margin-right: 5px;
+            border: none;
+        }
+
+        .dropdown-content {
+            display: none;
+            background-color: var(--secondary-bg-color);
+            color: var(--text-color);
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 200px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            border-radius: 5px;
+            z-index: 1000;
+            transition: top var(--transition-time) ease;
+            border: 1px solid var(--border-color);
+            margin-top: 5px;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: background-color var(--transition-time) ease;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #334155;
+            color: var(--link-color);
+        }
+
+        .dropdown.open .dropdown-content {
+            display: block;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        /* 博客文章内容区域 */
+        .article {
+            background-color: var(--card-bg-color);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .article h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.4em;
+            color: var(--text-color);
+        }
+
+        .article p {
+            margin: 10px 0;
+            color: var(--text-color);
+        }
+
+        .article a {
+            font-size: 1em;
+        }
+
+        .article .meta {
+            font-size: 0.9em;
+            color: #94a3b8;
+            margin: 5px 0;
+        }
+
+        .article .content {
+            margin-top: 20px;
+            line-height: 1.8;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-color);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--link-color);
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .toolbox {
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-toggle, .search-icon {
+            background-color: transparent;
+            border: none;
+            color: var(--text-color);
+            font-size: 24px;
+            cursor: pointer;
+            transition: all var(--transition-time) ease;
+            padding: 5px;
+            margin-left: 5px;
+        }
+
+        .theme-toggle:hover, .search-icon:hover {
+            color: var(--link-color);
+        }
+
+        footer {
+            background-color: var(--secondary-bg-color);
+            color: var(--text-color);
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2);
+            border-top: 1px solid var(--border-color);
+            margin-top: 30px;
+        }
+
+        footer a {
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="menu-icon2">学习帮</div>
+        <div class="toolbox">
+            {{ nav|safe }}
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="article">
+            <h3>hello，欢迎来到学习帮</h3>
+    </div>
+
+    <script>
+        function handleLike(event, id, element) {
+            event.preventDefault();
+            fetch(`/bookgood=${id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ action: 'like' })
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok.');
+                return response.json();
+            })
+            .then(data => {
+                // ✅ 直接更新传入的元素
+                element.textContent = `Likes: ${data.good}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('操作频繁');
+            });
+        }
+
+        function toggleDropdown() {
+            const dropdown = document.querySelector('.dropdown');
+            dropdown.classList.toggle('open');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.getAttribute('data-theme') === 'light') {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        document.addEventListener('click', function (event) {
+            const dropdown = document.querySelector('.dropdown');
+            if (!dropdown.contains(event.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        // 页面加载时根据本地存储设置主题
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+        }
+
+        // 跳转到搜索页面
+        function navigateToSearch() {
+            window.location.href = "search";
+        }
+
+        console.info('加载成功，小盒子版本号：1.7.6');
+        console.info('未修改前端');
+    </script>
+</body>
+</html>
