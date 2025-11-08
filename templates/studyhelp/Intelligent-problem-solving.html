@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>studyhelp</title>
 
-    <!-- 在 head 中提前运行脚本，防止 FOUC -->
     <script>
         // 立即读取主题，避免闪烁
         (function() {
@@ -282,16 +281,11 @@
             }
         });
 
-        // 页面加载时根据本地存储设置主题
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'light') {
             document.documentElement.setAttribute('data-theme', 'light');
         }
 
-        // 跳转到搜索页面
-        function navigateToSearch() {
-            window.location.href = "search";
-        }
     </script>
 </body>
 </html>
